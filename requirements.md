@@ -6,7 +6,7 @@
 * Pionek pojawia się na planszy, na polu startowym gdy zostanie wyrzuconych 6 oczek na kostce.
 * Gdy gracz nie ma pionka na planszy (pionki w bazie się nie liczą) to rzuca kostką maksymalnie 3 razy, do momentu wyrzucenia 6 oczek. Jeżeli uda się wylosować 6 oczek to gracz ponownie rzuca kostką i skacze o odpowiednią liczbę oczek z kostki.
 * Pionki mogą nad sobą przeskakiwać.
-* Gdy gracz ma już przynajmniej jeden pionek na planszy to wyrzucenie 6 oczek pozwala ponownie rzucić kostką lub wprowadzić następny pionek(jeśli jest jakiś w schowku).
+* W przypadku wyrzucenia 6 oczek gracz wyprowadza następny pionek (jeśli jest jakiś w schowku) lub wykonuje ruch o 6 oczek jednym z wyprowadzonych wcześniej pionków, a następnie ponownie rzuca kostką.
 * Kiedy gracz obejdzie pionkiem całą planszę dookoła, wprowadza swój pionek do bazy (cztery pola oznaczone własnym kolorem). Do bazy  jednego gracza nie mogą wjechać swoimi pionkami inni gracze.
 * Jeśli gracz wyrzuci więcej oczek niż ma do pokonania pól do bazy,to nie skacze pionkiem.
 * Jeśli pionek wskoczy na pole, gdzie znajdował się pionek innego gracza, to ten  drugi pionek zostaje zbity i wraca do schowka. Wyjątkiem jest pole startowe drugiego pionka, wtedy obydwa pionki stoją obok siebie.
@@ -18,4 +18,3 @@
 
 ### Źródła
 * https://en.wikipedia.org/wiki/Mensch_%C3%A4rgere_Dich_nicht
-
