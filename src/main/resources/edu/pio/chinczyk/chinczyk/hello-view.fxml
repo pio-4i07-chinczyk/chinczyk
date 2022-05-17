@@ -5,8 +5,8 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="edu.pio.chinczyk.chinczyk.HelloController">
+<VBox minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="edu.pio.chinczyk.chinczyk.GameController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
