@@ -1,22 +1,20 @@
 package edu.pio.chinczyk.chinczyk;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class RulesSceneController {
     @FXML
-    protected void onButtonClick(final ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
+    public AnchorPane root;
+
+    public void onButtonClick() {
+        Scene rulesScene = this.root.getScene();
+        Game game = (Game)(rulesScene.getUserData());
+
+        Stage stage = game.getStage();
+        stage.setScene(game.getScene("hello-view.fxml"));
         stage.show();
     }
 }

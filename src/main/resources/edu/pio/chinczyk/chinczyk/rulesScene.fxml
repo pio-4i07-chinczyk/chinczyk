@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-image: url(&quot;https://v.wpimg.pl/NzMzMjIyYRssGDtZZgJsDm9AbwMgW2JYOFh3SGZBfko1VSlEPgknFypUPQZmS39DdUh8XX1MY0t9SX5ffE55SX1VLgIgFy0ANBFjADkebAc&quot;); -fx-background-repeat: no-repeat; -fx-background-size: cover; -fx-background-position: center;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.pio.chinczyk.chinczyk.RulesSceneController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-image: url(&quot;https://v.wpimg.pl/NzMzMjIyYRssGDtZZgJsDm9AbwMgW2JYOFh3SGZBfko1VSlEPgknFypUPQZmS39DdUh8XX1MY0t9SX5ffE55SX1VLgIgFy0ANBFjADkebAc&quot;); -fx-background-repeat: no-repeat; -fx-background-size: cover; -fx-background-position: center;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.pio.chinczyk.chinczyk.RulesSceneController">
    <children>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>

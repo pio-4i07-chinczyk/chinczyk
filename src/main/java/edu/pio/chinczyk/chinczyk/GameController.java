@@ -1,27 +1,24 @@
 package edu.pio.chinczyk.chinczyk;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.Objects;
-
 public class GameController {
+    @FXML
+    public VBox root;
     @FXML
     private Label welcomeText;
 
     @FXML
-    protected void onHelloButtonClick(final ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("rulesScene.fxml")));
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
+    protected void onHelloButtonClick() {
+        Scene rulesScene = this.root.getScene();
+        Game game = (Game)(rulesScene.getUserData());
+
+        Stage stage = game.getStage();
+        stage.setScene(game.getScene("rulesScene.fxml"));
         stage.show();
     }
 }
