@@ -35,6 +35,7 @@ public class DiceController extends ImageView {
                 if(waitingForRoll) {
                     rollResult = random.nextInt(6) + 1;
                     dice.setImage(new Image(getClass().getResource("img/dice" + rollResult + ".png").toString()));
+                    waitingForRoll = false;
                 }
                 else {
                     mouseEvent.consume();
