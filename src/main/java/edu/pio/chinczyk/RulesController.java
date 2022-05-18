@@ -5,13 +5,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class RulesController {
+public class RulesController extends RootController {
     @FXML
     public AnchorPane root;
 
     public void onReturnClick() {
-        Scene rulesScene = this.root.getScene();
-        LudoApp game = (LudoApp)(rulesScene.getUserData());
+        LudoApp game = (LudoApp)(this.getApp());
 
         Stage stage = game.getStage();
         stage.setScene(game.getScene("menu.fxml"));

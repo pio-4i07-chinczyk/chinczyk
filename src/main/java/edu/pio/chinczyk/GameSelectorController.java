@@ -1,17 +1,15 @@
 package edu.pio.chinczyk;
 
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class GameSelectorController {
+public class GameSelectorController extends RootController {
     @FXML
     Pane root;
 
     public void onSelectClicked() {
-        Scene rulesScene = this.root.getScene();
-        LudoApp game = (LudoApp)(rulesScene.getUserData());
+        LudoApp game = (LudoApp)(this.getApp());
 
         Stage stage = game.getStage();
         stage.setScene(game.getScene("game.fxml"));
@@ -19,8 +17,7 @@ public class GameSelectorController {
     }
 
     public void onReturnClicked() {
-        Scene rulesScene = this.root.getScene();
-        LudoApp game = (LudoApp)(rulesScene.getUserData());
+        LudoApp game = (LudoApp)(this.getApp());
 
         Stage stage = game.getStage();
         stage.setScene(game.getScene("menu.fxml"));
