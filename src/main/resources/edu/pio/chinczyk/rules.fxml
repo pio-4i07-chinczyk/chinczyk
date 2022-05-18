@@ -11,27 +11,27 @@
             styleClass="rules-parent" stylesheets="@style.css"
             xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="edu.pio.chinczyk.RulesController">
-   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0"
-         AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <Label alignment="CENTER" prefHeight="72.0" prefWidth="1415.0" style="-fx-font-weight: 400;" text="ZASADY"
-             textAlignment="CENTER">
-         <font>
-            <Font name="Century" size="58.0"/>
-         </font>
-      </Label>
-      <Label alignment="CENTER" lineSpacing="4.0" prefHeight="529.0" prefWidth="1280.0"
-             style="-fx-padding: 10; -fx-font-weight: 700;"
-             text="* Gra od 2 do 4 osób.&#10;* Gracze rzucają kostką zgodnie z ustaloną wcześniej kolejnością (zgodnie z kierunkeim zegara, rozpoczynając od koloru czerwonego).&#10;* Każdy gracz ma 4 pionki, które początkowo znajdują się w schowku.&#10;* Każdy gracz wyróżnia się innym kolorem(zielony, żółty, niebieski, czerwony).&#10;* Pionek pojawia się na planszy, na polu startowym gdy zostanie wyrzuconych 6 oczek na kostce.&#10;* Gdy gracz nie ma pionka na planszy (pionki w bazie się nie liczą) to rzuca kostką maksymalnie 3 razy, &#10;do momentu wyrzucenia 6 oczek. Jeżeli uda się wylosować 6 oczek to gracz ponownie rzuca kostką &#10;i skacze o odpowiednią liczbę oczek z kostki.&#10;* Pionki mogą nad sobą przeskakiwać.&#10;* W przypadku wyrzucenia 6 oczek gracz wyprowadza następny pionek (jeśli jest jakiś w schowku) &#10;lub wykonuje ruch o 6 oczek jednym z wyprowadzonych wcześniej pionków, a następnie ponownie rzuca kostką.&#10;* Kiedy gracz obejdzie pionkiem całą planszę dookoła, wprowadza swój pionek do bazy (cztery pola oznaczone własnym kolorem). &#10;Do bazy  jednego gracza nie mogą wjechać swoimi pionkami inni gracze.&#10;* Jeśli gracz wyrzuci więcej oczek niż ma do pokonania pól do bazy,to nie skacze pionkiem.&#10;* Jeśli pionek wskoczy na pole, gdzie znajdował się pionek innego gracza, to ten  drugi pionek zostaje zbity i wraca do schowka. &#10;Wyjątkiem jest pole startowe drugiego pionka, wtedy obydwa pionki stoją obok siebie.&#10;* Wygrywa gracz, który doprowadzi wszystkie pionki do bazy. Gdy jest więcej niż 2 graczy,&#10;to mogą oni walczyć dalej między sobą o kolejne miejsca."
-             textAlignment="CENTER" wrapText="true">
-         <font>
-            <Font name="Candara" size="16.0"/>
-         </font>
-      </Label>
-   </VBox>
-   <Button mnemonicParsing="false" onAction="#onButtonClick" prefHeight="63.0" prefWidth="162.0" text="POWRÓT"
-           underline="true" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="40.0">
-      <font>
-         <Font name="Candara" size="29.0"/>
-      </font>
-   </Button>
+    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Label alignment="CENTER" prefHeight="72.0" prefWidth="1415.0" style="-fx-font-weight: 400;" text="ZASADY"
+               textAlignment="CENTER">
+            <font>
+                <Font name="Century" size="58.0"/>
+            </font>
+        </Label>
+        <Label alignment="CENTER" lineSpacing="4.0" prefHeight="529.0" prefWidth="1280.0"
+               style="-fx-padding: 10; -fx-font-weight: 700;"
+               text="* Gra od 2 do 4 osób.&#10;* Gracze rzucają kostką zgodnie z ustaloną wcześniej kolejnością (zgodnie z kierunkeim zegara, rozpoczynając od koloru czerwonego).&#10;* Każdy gracz ma 4 pionki, które początkowo znajdują się w schowku.&#10;* Każdy gracz wyróżnia się innym kolorem(zielony, żółty, niebieski, czerwony).&#10;* Pionek pojawia się na planszy, na polu startowym gdy zostanie wyrzuconych 6 oczek na kostce.&#10;* Gdy gracz nie ma pionka na planszy (pionki w bazie się nie liczą) to rzuca kostką maksymalnie 3 razy, &#10;do momentu wyrzucenia 6 oczek. Jeżeli uda się wylosować 6 oczek to gracz ponownie rzuca kostką &#10;i skacze o odpowiednią liczbę oczek z kostki.&#10;* Pionki mogą nad sobą przeskakiwać.&#10;* W przypadku wyrzucenia 6 oczek gracz wyprowadza następny pionek (jeśli jest jakiś w schowku) &#10;lub wykonuje ruch o 6 oczek jednym z wyprowadzonych wcześniej pionków, a następnie ponownie rzuca kostką.&#10;* Kiedy gracz obejdzie pionkiem całą planszę dookoła, wprowadza swój pionek do bazy (cztery pola oznaczone własnym kolorem). &#10;Do bazy  jednego gracza nie mogą wjechać swoimi pionkami inni gracze.&#10;* Jeśli gracz wyrzuci więcej oczek niż ma do pokonania pól do bazy,to nie skacze pionkiem.&#10;* Jeśli pionek wskoczy na pole, gdzie znajdował się pionek innego gracza, to ten  drugi pionek zostaje zbity i wraca do schowka. &#10;Wyjątkiem jest pole startowe drugiego pionka, wtedy obydwa pionki stoją obok siebie.&#10;* Wygrywa gracz, który doprowadzi wszystkie pionki do bazy. Gdy jest więcej niż 2 graczy,&#10;to mogą oni walczyć dalej między sobą o kolejne miejsca."
+               textAlignment="CENTER" wrapText="true">
+            <font>
+                <Font name="Candara" size="16.0"/>
+            </font>
+        </Label>
+    </VBox>
+    <Button mnemonicParsing="false" onAction="#onReturnClick" prefHeight="63.0" prefWidth="162.0" text="POWRÓT"
+            underline="true" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="40.0">
+        <font>
+            <Font name="Candara" size="29.0"/>
+        </font>
+    </Button>
 </AnchorPane>

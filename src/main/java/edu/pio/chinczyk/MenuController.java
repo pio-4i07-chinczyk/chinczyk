@@ -14,12 +14,12 @@ public class MenuController {
     private Label welcomeText;
 
     @FXML
-    protected void onHelloButtonClick() {
+    protected void onPlayClick() {
         Scene rulesScene = this.root.getScene();
         LudoApp game = (LudoApp)(rulesScene.getUserData());
 
         Stage stage = game.getStage();
-        stage.setScene(game.getScene("rules.fxml"));
+        stage.setScene(game.getScene("game-selector.fxml"));
         stage.show();
     }
 }

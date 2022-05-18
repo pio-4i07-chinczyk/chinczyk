@@ -9,12 +9,12 @@ public class RulesController {
     @FXML
     public AnchorPane root;
 
-    public void onButtonClick() {
+    public void onReturnClick() {
         Scene rulesScene = this.root.getScene();
         LudoApp game = (LudoApp)(rulesScene.getUserData());
 
         Stage stage = game.getStage();
-        stage.setScene(game.getScene("hello-view.fxml"));
+        stage.setScene(game.getScene("menu.fxml"));
         stage.show();
     }
 }
