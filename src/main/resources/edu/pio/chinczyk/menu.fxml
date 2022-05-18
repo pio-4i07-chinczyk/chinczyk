@@ -6,10 +6,10 @@
 <Pane id="1" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       stylesheets="@style.css" styleClass="menu-parent"
       prefHeight="426.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml" fx:controller="edu.pio.chinczyk.MenuController">
-   <Button layoutX="124.0" layoutY="112.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
-           prefHeight="35.0" prefWidth="344.0" style="-fx-background-color: #ffd22d;" text="Graj" onMouseClicked="#onPlayClick"/>
-   <Button layoutX="124.0" layoutY="200.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+   <Button onMouseClicked="#onPlayClick" layoutX="124.0" layoutY="112.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+           prefHeight="35.0" prefWidth="344.0" style="-fx-background-color: #ffd22d;" text="Graj" />
+   <Button onMouseClicked="#onRulesClick" layoutX="124.0" layoutY="200.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
            prefHeight="35.0" prefWidth="344.0" style="-fx-background-color: #ffd22d;" text="Instrukcja"/>
-   <Button layoutX="124.0" layoutY="290.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+   <Button onMouseClicked="#onQuitClick" layoutX="124.0" layoutY="290.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
            prefHeight="35.0" prefWidth="344.0" style="-fx-background-color: #ffd22d;" text="Wyjdź"/>
 </Pane>
