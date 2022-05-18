@@ -1,0 +1,16 @@
+.rules-parent {
+    -fx-background-image: url("https://v.wpimg.pl/NzMzMjIyYRssGDtZZgJsDm9AbwMgW2JYOFh3SGZBfko1VSlEPgknFypUPQZmS39DdUh8XX1MY0t9SX5ffE55SX1VLgIgFy0ANBFjADkebAc");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.menu-parent {
+    -fx-background-color: #401b05;
+    -fx-border-color: #d68e23;
+}
+
+.game-selector-parent {
+    -fx-background-color: #401b05;
+    -fx-border-color: #d68e23;
+}
