@@ -60,7 +60,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>edu.pio.chinczyk.chinczyk/edu.pio.chinczyk.chinczyk.Game</mainClass>
+                            <mainClass>edu.pio.chinczyk.chinczyk/edu.pio.chinczyk.LudoApp</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

@@ -1,5 +1,6 @@
-package edu.pio.chinczyk.chinczyk;
+package edu.pio.chinczyk;
 
+import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -7,21 +8,23 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.HashMap;
 
-public class Game extends javafx.application.Application {
+public class LudoApp extends Application {
     private final HashMap<String, Scene> scenes;
     private Stage stage = null;
 
-    public Game() {
+    public LudoApp() {
         scenes = new HashMap<>();
 
         String[] scenePaths = {
-            "hello-view.fxml",
-            "rulesScene.fxml"
+                "menu.fxml",
+                "rules.fxml",
+                "game-selector.fxml",
+                "game.fxml"
         };
 
-        for(String path : scenePaths) {
-            URL sceneURL = Game.class.getResource(path);
-            if(sceneURL == null) {
+        for (String path : scenePaths) {
+            URL sceneURL = LudoApp.class.getResource(path);
+            if (sceneURL == null) {
                 continue;
             }
 
@@ -29,8 +32,7 @@ public class Game extends javafx.application.Application {
                 Scene scene = new Scene(FXMLLoader.load(sceneURL));
                 scene.setUserData(this);
                 scenes.put(path, scene);
-            }
-            catch (Exception ignore) {
+            } catch (Exception ignore) {
             }
         }
     }
@@ -47,7 +49,7 @@ public class Game extends javafx.application.Application {
     public void start(Stage stage) {
         this.stage = stage;
         stage.setTitle("CHINCZYK!");
-        stage.setScene(this.getScene("hello-view.fxml"));
+        stage.setScene(this.getScene("game.fxml"));
         stage.show();
     }
 

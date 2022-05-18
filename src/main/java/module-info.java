@@ -1,8 +1,8 @@
-module edu.pio.chinczyk.chinczyk {
+module edu.pio.chinczyk {
     requires javafx.controls;
     requires javafx.fxml;
 
 
-    opens edu.pio.chinczyk.chinczyk to javafx.fxml;
-    exports edu.pio.chinczyk.chinczyk;
+    opens edu.pio.chinczyk to javafx.fxml;
+    exports edu.pio.chinczyk;
 }

@@ -1,24 +1,25 @@
-package edu.pio.chinczyk.chinczyk;
+package edu.pio.chinczyk;
 
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class GameController {
+public class MenuController {
     @FXML
-    public VBox root;
+    public Parent root;
+
     @FXML
     private Label welcomeText;
 
     @FXML
     protected void onHelloButtonClick() {
         Scene rulesScene = this.root.getScene();
-        Game game = (Game)(rulesScene.getUserData());
+        LudoApp game = (LudoApp)(rulesScene.getUserData());
 
         Stage stage = game.getStage();
-        stage.setScene(game.getScene("rulesScene.fxml"));
+        stage.setScene(game.getScene("rules.fxml"));
         stage.show();
     }
 }
