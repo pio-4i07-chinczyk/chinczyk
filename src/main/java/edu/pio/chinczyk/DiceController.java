@@ -16,6 +16,7 @@ public class DiceController extends ImageView {
 
     private int rollResult;
     private final Random random = new Random();
+    private boolean waitingForRoll = false;
 
     public DiceController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dice.fxml"));
@@ -28,17 +29,26 @@ public class DiceController extends ImageView {
             throw new RuntimeException(exception);
         }
 
-        this.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<>() {
+        this.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                rollResult = random.nextInt(6) + 1;
-                dice.setImage(new Image(getClass().getResource("img/dice" + rollResult + ".png").toString()));
+                if(waitingForRoll) {
+                    rollResult = random.nextInt(6) + 1;
+                    dice.setImage(new Image(getClass().getResource("img/dice" + rollResult + ".png").toString()));
+                }
+                else {
+                    mouseEvent.consume();
+                }
             }
         });
     }
 
     public int getRollResult() {
         return rollResult;
+    }
+
+    public void setWaitingForRoll(boolean waitingForRoll) {
+        this.waitingForRoll = waitingForRoll;
     }
 }
 
