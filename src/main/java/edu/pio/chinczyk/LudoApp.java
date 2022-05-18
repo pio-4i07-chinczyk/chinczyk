@@ -25,6 +25,7 @@ public class LudoApp extends Application {
     }
 
     private void loadScenes() {
+
         for (String path : LudoApp.scenePaths) {
             URL sceneURL = LudoApp.class.getResource(path);
             if (sceneURL == null) {
@@ -32,9 +33,14 @@ public class LudoApp extends Application {
             }
 
             try {
-                Scene scene = new Scene(FXMLLoader.load(sceneURL));
-                scene.setUserData(this);
+                FXMLLoader loader = new FXMLLoader();
+
+                loader.setLocation(sceneURL);
+                Scene scene = new Scene(loader.load());
                 scenes.put(path, scene);
+
+                RootController appInjectable = (RootController) loader.getController();
+                appInjectable.setApp(this);
             }
             catch (Exception ignore) {
             }
