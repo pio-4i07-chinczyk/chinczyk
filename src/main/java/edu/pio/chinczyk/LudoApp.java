@@ -9,20 +9,23 @@ import java.net.URL;
 import java.util.HashMap;
 
 public class LudoApp extends Application {
+    private static final String[] scenePaths = {
+            "menu.fxml",
+            "rules.fxml",
+            "game-selector.fxml",
+            "game.fxml"
+    };
+
     private final HashMap<String, Scene> scenes;
     private Stage stage = null;
 
     public LudoApp() {
         scenes = new HashMap<>();
+        loadScenes();
+    }
 
-        String[] scenePaths = {
-                "menu.fxml",
-                "rules.fxml",
-                "game-selector.fxml",
-                "game.fxml"
-        };
-
-        for (String path : scenePaths) {
+    private void loadScenes() {
+        for (String path : LudoApp.scenePaths) {
             URL sceneURL = LudoApp.class.getResource(path);
             if (sceneURL == null) {
                 continue;
@@ -32,7 +35,8 @@ public class LudoApp extends Application {
                 Scene scene = new Scene(FXMLLoader.load(sceneURL));
                 scene.setUserData(this);
                 scenes.put(path, scene);
-            } catch (Exception ignore) {
+            }
+            catch (Exception ignore) {
             }
         }
     }
@@ -48,8 +52,9 @@ public class LudoApp extends Application {
     @Override
     public void start(Stage stage) {
         this.stage = stage;
+
         stage.setTitle("CHINCZYK!");
-        stage.setScene(this.getScene("game.fxml"));
+        stage.setScene(this.getScene("menu.fxml"));
         stage.show();
     }
 
