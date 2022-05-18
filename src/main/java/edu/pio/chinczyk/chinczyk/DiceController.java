@@ -23,6 +23,7 @@ import java.util.ResourceBundle;
 public class DiceController extends ImageView {
     @FXML
     private ImageView dice;
+
     private int roll_result;
     private final Random random = new Random();
 
@@ -36,6 +37,10 @@ public class DiceController extends ImageView {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    public int getRoll_result() {
+        return roll_result;
     }
 
     @FXML
