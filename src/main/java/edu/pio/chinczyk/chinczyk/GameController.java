@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 public class GameController {
     @FXML
     public VBox root;
+    public DiceController dice;
     @FXML
     private Label welcomeText;
 
