@@ -6,6 +6,9 @@ import javafx.scene.image.ImageView;
 public class gameSceneController {
 
     @FXML
+    private ImageView board;
+
+    @FXML
     private ImageView blue_pawn_1;
 
     @FXML
