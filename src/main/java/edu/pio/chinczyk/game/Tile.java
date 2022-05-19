@@ -25,11 +25,19 @@ public class Tile {
     }
 
     public int getX() {
-        return pos.x;
+        return this.pos.x;
     }
 
     public int getY() {
-        return pos.y;
+        return this.pos.y;
+    }
+
+    public Board.Pos2D getPos() {
+        return this.pos;
+    }
+
+    public Tile getNext() {
+        return this.next;
     }
 
     public void setNext(Tile next) {

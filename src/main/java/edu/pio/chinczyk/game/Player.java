@@ -33,7 +33,11 @@ public class Player {
         return homeTiles;
     }
 
-    public Pawn[] getPawns() {
-        return pawns;
+    public Pawn getPawn(int index) {
+        return pawns[index];
+    }
+
+    public void setPawn(int index, Pawn pawn) {
+        this.pawns[index] = pawn;
     }
 }

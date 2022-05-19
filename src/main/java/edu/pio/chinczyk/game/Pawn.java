@@ -10,4 +10,6 @@ public class Pawn {
     public void setTile(Tile tile) {
         this.tile = tile;
     }
+
+
 }
