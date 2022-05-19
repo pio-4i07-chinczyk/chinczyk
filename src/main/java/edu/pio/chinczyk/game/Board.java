@@ -1,10 +1,13 @@
 package edu.pio.chinczyk.game;
 
+import javafx.geometry.Pos;
+
 import java.util.ArrayList;
 
 public class Board {
     private static final int PLAYERS_N = 4;
-    private final Pos2D size = new Pos2D(11, 11);
+    public static final int TILES_N = 11;
+    private final Pos2D size = new Pos2D(TILES_N, TILES_N);
 
     private final Player[] players;
     private final ArrayList<Tile> tiles;
@@ -56,13 +59,13 @@ public class Board {
         // some first tiles
         temp = new Tile(4, 1);
         tiles.add(temp);
-        temp = new Tile(4, 2);
+        temp = new Tile(4, 2, temp);
         tiles.add(temp);
-        temp = new Tile(4, 3);
+        temp = new Tile(4, 3, temp);
         tiles.add(temp);
-        temp = new Tile(4, 4);
+        temp = new Tile(4, 4, temp);
         tiles.add(temp);
-        temp = new Tile(3, 4);
+        temp = new Tile(3, 4, temp);
         tiles.add(temp);
         temp = new Tile(2, 4, temp);
         tiles.add(temp);
@@ -83,21 +86,19 @@ public class Board {
     private void addLobbyTiles(int x, int y, Player player) {
         LobbyTile[] playerLobbyTiles = player.getLobbyTiles();
         StartingTile startingTile = player.getStartingTile();
-        Pawn[] playerPawns = player.getPawns();
 
         for(int i = 0; i < 2; ++i) {
             for(int j = 0; j < 2; ++j) {
-                LobbyTile lobbyTile = new LobbyTile(x + i, y + j);
+                LobbyTile lobbyTile = new LobbyTile(x + j, y + i);
                 tiles.add(lobbyTile);
-
                 lobbyTile.setNext(startingTile);
 
                 int index = (i * 2) + j;
 
                 Pawn pawn = new Pawn();
                 pawn.setTile(lobbyTile);
-                playerPawns[index] = pawn;
 
+                player.setPawn(index, pawn);
                 playerLobbyTiles[index] = lobbyTile;
             }
         }
@@ -129,5 +130,13 @@ public class Board {
         }
 
         return null;
+    }
+
+    public Player getPlayer(int id) {
+        return this.players[id];
+    }
+
+    public Pos2D getTileCoords(Pos2D size, Pos2D pos) {
+        return new Pos2D((size.x / TILES_N) * pos.x ,(size.y / TILES_N) * pos.y);
     }
 }

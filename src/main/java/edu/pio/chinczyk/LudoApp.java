@@ -1,5 +1,6 @@
 package edu.pio.chinczyk;
 
+import edu.pio.chinczyk.game.Board;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,10 +19,13 @@ public class LudoApp extends Application {
 
     private final HashMap<String, Scene> scenes;
     private Stage stage = null;
+    private final Board board;
 
     public LudoApp() {
         scenes = new HashMap<>();
+
         loadScenes();
+        board = new Board();
     }
 
     private void loadScenes() {
@@ -53,6 +57,10 @@ public class LudoApp extends Application {
 
     public Scene getScene(String path) {
         return scenes.getOrDefault(path, null);
+    }
+
+    public Board getBoard() {
+        return board;
     }
 
     @Override
