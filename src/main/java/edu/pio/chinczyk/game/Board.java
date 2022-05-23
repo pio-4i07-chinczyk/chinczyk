@@ -1,7 +1,5 @@
 package edu.pio.chinczyk.game;
 
-import javafx.geometry.Pos;
-
 import java.util.ArrayList;
 
 public class Board {
@@ -33,7 +31,7 @@ public class Board {
         Tile temp;
 
         // blue
-        player = new Player();
+        player = new Player(Player.Color.BLUE);
         this.players[0] = player;
         // tiles
         addStartingTile(4, 10, player);
@@ -41,7 +39,7 @@ public class Board {
         addHomeTiles(5, 6, true, player);
 
         // green
-        player = new Player();
+        player = new Player(Player.Color.GREEN);
         this.players[1] = player;
         // tiles
         addStartingTile(6, 0, player);
@@ -49,7 +47,7 @@ public class Board {
         addHomeTiles(5, 1, true, player);
 
         // yellow
-        player = new Player();
+        player = new Player(Player.Color.YELLOW);
         this.players[2] = player;
         // tiles
         addStartingTile(0, 4, player);
@@ -75,7 +73,7 @@ public class Board {
         // TODO: generate map
 
         // red
-        player = new Player();
+        player = new Player(Player.Color.RED);
         this.players[3] = player;
         // tiles
         addStartingTile(10, 6, player);
@@ -95,7 +93,7 @@ public class Board {
 
                 int index = (i * 2) + j;
 
-                Pawn pawn = new Pawn();
+                Pawn pawn = new Pawn(player.getColor());
                 pawn.setTile(lobbyTile);
 
                 player.setPawn(index, pawn);
