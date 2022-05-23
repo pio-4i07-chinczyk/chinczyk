@@ -7,8 +7,10 @@ import edu.pio.chinczyk.game.Tile;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,7 +18,8 @@ import java.util.ResourceBundle;
 public class GameController extends RootController implements Initializable {
     @FXML
     private Parent root;
-
+    @FXML
+    private Button but;
     @FXML
     private ImageView board;
 
@@ -104,6 +107,18 @@ public class GameController extends RootController implements Initializable {
         dice.setWaitingForRoll(true);
         selectPawn = false;
     }
+
+    public void end_game() {
+
+        LudoApp game = (LudoApp)(this.getApp());
+
+        Stage stage = game.getStage();
+        stage.setScene(game.getScene("menu.fxml"));
+        stage.show();
+
+    }
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
