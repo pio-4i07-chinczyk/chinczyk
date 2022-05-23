@@ -26,3 +26,7 @@
     -fx-background-color: #401b05;
     -fx-border-color: #d68e23;
 }
+
+.my-button {
+    -fx-background-color: #ffd22d;
+}
