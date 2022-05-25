@@ -2,9 +2,9 @@ package edu.pio.chinczyk.game;
 
 public class Pawn {
     private Tile tile;
-    private final Player.Color color;
+    private final Color color;
 
-    Pawn(Player.Color color) {
+    Pawn(Color color) {
         this.color = color;
     }
 
@@ -15,7 +15,7 @@ public class Pawn {
         this.tile = tile;
     }
 
-    public Player.Color getColor() {
+    public Color getColor() {
         return color;
     }
 }

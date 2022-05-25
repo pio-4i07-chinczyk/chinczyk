@@ -123,7 +123,7 @@ public class GameController extends RootController implements Initializable {
 
         pawn.setTile(next);
 
-        Board.Pos2D coords = board.getTileCoords(new Board.Pos2D(600, 600), next.getPos());
+        Vec2i coords = board.getTileCoords(new Vec2i(600, 600), next.getPos());
 
         yellow_pawn_1.setX(coords.x);
         yellow_pawn_1.setY(coords.y);
