@@ -106,9 +106,12 @@ public class GameController extends RootController implements Initializable {
     }
 
     private void bindPawnsToModel() {
+        Board board = ((LudoApp)this.getApp()).getBoard();
+
         for(int playerID = 0; playerID < MAX_PLAYERS; ++playerID) {
+            Player player = board.getPlayer(playerID);
             for(int pawnID = 0; pawnID < PAWNS_PER_PLAYER; ++pawnID) {
-                Pawn pawn = ((LudoApp)this.getApp()).getBoard().getPlayer(playerID).getPawn(pawnID);
+                Pawn pawn = player.getPawn(pawnID);
                 pawns[playerID][pawnID].setUserData(pawn);
             }
         }
