@@ -1,15 +1,16 @@
 package edu.pio.chinczyk;
 
-import edu.pio.chinczyk.game.Board;
-import edu.pio.chinczyk.game.Pawn;
-import edu.pio.chinczyk.game.Player;
-import edu.pio.chinczyk.game.Tile;
-import edu.pio.chinczyk.game.Vec2i;
+import edu.pio.chinczyk.game.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -78,6 +79,7 @@ public class GameController extends RootController implements Initializable {
     private DiceController dice;
 
     int currentPlayer = 2;
+    int playersCount = 4;
     boolean selectPawn = false;
     private final ImageView[][] pawns = new ImageView[MAX_PLAYERS][PAWNS_PER_PLAYER];
 
@@ -132,6 +134,42 @@ public class GameController extends RootController implements Initializable {
 
         dice.setWaitingForRoll(true);
         selectPawn = false;
+    }
+
+    private void showWinAlert(Player.Color winner) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Game over");
+            alert.setHeaderText("Game over");
+
+            alert.setContentText(winner.toString() + " wins!");
+
+            alert.showAndWait().ifPresent(rs -> {
+                if (rs == ButtonType.OK) {
+                    LudoApp game = (LudoApp)(this.getApp());
+
+                    Stage stage = game.getStage();
+                    stage.setScene(game.getScene("menu.fxml"));
+                    stage.show();
+                }
+            });
+        });
+    }
+
+    private void onPawnMove() {
+        checkIfWinHappened();
+    }
+
+    private boolean checkIfWinHappened() {
+        for(int playerID = 0; playerID < playersCount; ++playerID) {
+            for(int pawnID = 0; pawnID < PAWNS_PER_PLAYER; ++pawnID) {
+                Pawn pawn = (Pawn)pawns[playerID][pawnID].getUserData();
+                if(!(pawn.getTile() instanceof HomeTile)){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override
