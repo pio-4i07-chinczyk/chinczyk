@@ -10,11 +10,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Function;
 
 public class GameController extends RootController implements Initializable {
     private static final int MAX_PLAYERS = 4;
@@ -81,6 +81,7 @@ public class GameController extends RootController implements Initializable {
     private DiceController dice;
 
     int currentPlayer = 2;
+    Color winner = null;
     int playersCount = 4;
     boolean selectPawn = false;
     private final ImageView[][] pawns = new ImageView[MAX_PLAYERS][PAWNS_PER_PLAYER];
@@ -162,7 +163,10 @@ public class GameController extends RootController implements Initializable {
         stage.show();
     }
 
-    private void showWinAlert(Color winner) {
+    private void showWinAlert() {
+        if(winner == null)
+            return;
+      
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Game over");
@@ -183,20 +187,30 @@ public class GameController extends RootController implements Initializable {
     }
 
     private void onPawnMove() {
-        checkIfWinHappened();
+        if(hasAnyoneWon())
+            showWinAlert();
     }
 
-    private boolean checkIfWinHappened() {
-        for(int playerID = 0; playerID < playersCount; ++playerID) {
+    private boolean hasAnyoneWon() {
+        Function<ImageView[], boolean> allPawnsOnHome = (pawns) -> {
             for(int pawnID = 0; pawnID < PAWNS_PER_PLAYER; ++pawnID) {
-                Pawn pawn = (Pawn)pawns[playerID][pawnID].getUserData();
-                if(!(pawn.getTile() instanceof HomeTile)){
+                Pawn pawn = (Pawn) pawns[pawnID].getUserData();
+
+                if(!(pawn.getTile() instanceof HomeTile))
                     return false;
-                }
+            }
+            
+            return true;
+        };
+
+        for(int playerID = 0; playerID < playersCount; ++playerID) {
+            if(allPawnsOnHome.apply(pawns[playerID])) {
+                winner = Player.Color.values()[playerID];
+                return true;
             }
         }
-      
-        return true;
+
+        return false;
     }
 
     @Override
