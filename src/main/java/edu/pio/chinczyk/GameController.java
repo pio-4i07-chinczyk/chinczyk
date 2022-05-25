@@ -5,10 +5,11 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -23,7 +24,8 @@ public class GameController extends RootController implements Initializable {
 
     @FXML
     private Parent root;
-
+    @FXML
+    private Button end_button;
     @FXML
     private ImageView board;
 
@@ -79,7 +81,7 @@ public class GameController extends RootController implements Initializable {
     private DiceController dice;
 
     int currentPlayer = 2;
-    Player.Color winner = null;
+    Color winner = null;
     int playersCount = 4;
     boolean selectPawn = false;
     private final ImageView[][] pawns = new ImageView[MAX_PLAYERS][PAWNS_PER_PLAYER];
@@ -106,6 +108,22 @@ public class GameController extends RootController implements Initializable {
         pawns[3][3] = red_pawn_4;
     }
 
+    private void bindPawnsToModel() {
+        Board board = ((LudoApp)this.getApp()).getBoard();
+
+        for(int playerID = 0; playerID < MAX_PLAYERS; ++playerID) {
+            Player player = board.getPlayer(playerID);
+            for(int pawnID = 0; pawnID < PAWNS_PER_PLAYER; ++pawnID) {
+                Pawn pawn = player.getPawn(pawnID);
+                pawns[playerID][pawnID].setUserData(pawn);
+            }
+        }
+    }
+
+    private void runBeforeShow() {
+        bindPawnsToModel();
+    }
+
     public void onDiceClick() {
         selectPawn = true;
     }
@@ -124,7 +142,7 @@ public class GameController extends RootController implements Initializable {
 
         pawn.setTile(next);
 
-        Board.Pos2D coords = board.getTileCoords(new Board.Pos2D(600, 600), next.getPos());
+        Vec2i coords = board.getTileCoords(new Vec2i(600, 600), next.getPos());
 
         yellow_pawn_1.setX(coords.x);
         yellow_pawn_1.setY(coords.y);
@@ -137,10 +155,18 @@ public class GameController extends RootController implements Initializable {
         selectPawn = false;
     }
 
+    public void endGame() {
+        LudoApp game = (LudoApp)(this.getApp());
+
+        Stage stage = game.getStage();
+        stage.setScene(game.getScene("menu.fxml"));
+        stage.show();
+    }
+
     private void showWinAlert() {
         if(winner == null)
             return;
-
+      
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Game over");
@@ -191,7 +217,5 @@ public class GameController extends RootController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         selectPawn = false;
         dice.setWaitingForRoll(true);
-
-        //yellow_pawn_1.setUserData();
     }
 }
