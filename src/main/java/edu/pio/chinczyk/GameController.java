@@ -5,10 +5,11 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -23,7 +24,8 @@ public class GameController extends RootController implements Initializable {
 
     @FXML
     private Parent root;
-
+    @FXML
+    private Button end_button;
     @FXML
     private ImageView board;
 
@@ -152,6 +154,14 @@ public class GameController extends RootController implements Initializable {
         selectPawn = false;
     }
 
+    public void endGame() {
+        LudoApp game = (LudoApp)(this.getApp());
+
+        Stage stage = game.getStage();
+        stage.setScene(game.getScene("menu.fxml"));
+        stage.show();
+    }
+
     private void showWinAlert(Player.Color winner) {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -185,6 +195,7 @@ public class GameController extends RootController implements Initializable {
                 }
             }
         }
+      
         return true;
     }
 

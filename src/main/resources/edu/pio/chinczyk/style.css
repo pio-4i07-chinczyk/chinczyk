@@ -15,6 +15,7 @@
     -fx-margin: 0 50;
     -fx-font-weight: 400;
     -fx-background-color: rgba(255, 255, 255, 0.8);
+
 }
 
 .menu-parent {
@@ -25,4 +26,8 @@
 .game-selector-parent {
     -fx-background-color: #401b05;
     -fx-border-color: #d68e23;
+}
+
+.my-button {
+    -fx-background-color: #ffd22d;
 }

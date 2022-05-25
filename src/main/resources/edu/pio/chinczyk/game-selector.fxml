@@ -1,31 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<Pane fx:id="root" fx:controller="edu.pio.chinczyk.GameSelectorController" maxHeight="-Infinity" maxWidth="-Infinity"
-      minHeight="-Infinity" minWidth="-Infinity" prefHeight="426.0" prefWidth="600.0"
-      stylesheets="@style.css" styleClass="game-selector-parent"
-      xmlns:fx="http://javafx.com/fxml">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="426.0" prefWidth="600.0" styleClass="game-selector-parent" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.pio.chinczyk.GameSelectorController">
 
-    <Button layoutX="124.0" layoutY="112.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
-            prefHeight="35.0" prefWidth="344.0" style="-fx-background-color: #ffd22d;" text="2 graczy"
-            onMouseClicked="#onSelectClicked"/>
-    <Button layoutX="124.0" layoutY="200.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
-            prefHeight="35.0" prefWidth="344.0" style="-fx-background-color: #ffd22d;" text="3 graczy"
-            onMouseClicked="#onSelectClicked"/>
-    <Button layoutX="124.0" layoutY="290.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
-            prefHeight="35.0" prefWidth="344.0" style="-fx-background-color: #ffd22d;" text="4 graczy"
-            onMouseClicked="#onSelectClicked"/>
-    <Button layoutX="25.0" layoutY="359.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
-            prefHeight="35.0" prefWidth="108.0" style="-fx-background-color: #ffd22d;" text="Powrót"
-            onMouseClicked="#onReturnClicked"/>
-    <Text fill="#ffd22d" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wybór liczby graczy"
-          textAlignment="CENTER" wrappingWidth="600.0">
-        <font>
-            <Font size="25.0"/>
-        </font>
-    </Text>
-</Pane>
+    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="40.0" AnchorPane.bottomAnchor="81.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-4.800000000000011">
+
+        <Text fill="#ffd22d" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wybór liczby graczy" textAlignment="CENTER" wrappingWidth="600.0">
+            <font>
+                <Font size="25.0" />
+            </font>
+        </Text>
+
+        <Button layoutX="124.0" layoutY="112.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#onSelectClicked" prefHeight="35.0" prefWidth="344.0" styleClass="my-button" stylesheets="@style.css" text="2 graczy" />
+        <Button layoutX="124.0" layoutY="200.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#onSelectClicked" prefHeight="35.0" prefWidth="344.0" styleClass="my-button" stylesheets="@style.css" text="3 graczy" />
+        <Button layoutX="124.0" layoutY="290.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#onSelectClicked" prefHeight="35.0" prefWidth="344.0" styleClass="my-button" stylesheets="@style.css" text="4 graczy" />
+
+        <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#onReturnClicked" prefHeight="35.0" prefWidth="344.0" styleClass="my-button" stylesheets="@style.css" text="Powrót">
+            <opaqueInsets>
+                <Insets top="10.0" />
+            </opaqueInsets>
+        </Button>
+        <padding>
+            <Insets bottom="15.0" top="50.0" />
+        </padding>
+
+
+    </VBox>
+    <padding>
+        <Insets top="15.0" />
+    </padding>
+</AnchorPane>
