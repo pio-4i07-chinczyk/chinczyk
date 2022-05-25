@@ -105,6 +105,22 @@ public class GameController extends RootController implements Initializable {
         pawns[3][3] = red_pawn_4;
     }
 
+    private void bindPawnsToModel() {
+        Board board = ((LudoApp)this.getApp()).getBoard();
+
+        for(int playerID = 0; playerID < MAX_PLAYERS; ++playerID) {
+            Player player = board.getPlayer(playerID);
+            for(int pawnID = 0; pawnID < PAWNS_PER_PLAYER; ++pawnID) {
+                Pawn pawn = player.getPawn(pawnID);
+                pawns[playerID][pawnID].setUserData(pawn);
+            }
+        }
+    }
+
+    private void runBeforeShow() {
+        bindPawnsToModel();
+    }
+
     public void onDiceClick() {
         selectPawn = true;
     }
@@ -176,7 +192,5 @@ public class GameController extends RootController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         selectPawn = false;
         dice.setWaitingForRoll(true);
-
-        //yellow_pawn_1.setUserData();
     }
 }
