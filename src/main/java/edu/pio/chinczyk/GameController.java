@@ -19,7 +19,7 @@ public class GameController extends RootController implements Initializable {
     @FXML
     private Parent root;
     @FXML
-    private Button but;
+    private Button end_button;
     @FXML
     private ImageView board;
 
@@ -108,7 +108,7 @@ public class GameController extends RootController implements Initializable {
         selectPawn = false;
     }
 
-    public void end_game() {
+    public void endGame() {
 
         LudoApp game = (LudoApp)(this.getApp());
 

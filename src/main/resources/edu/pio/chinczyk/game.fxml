@@ -122,7 +122,7 @@
         </ImageView>
     </Group>
     <children>
-        <Button fx:id="but" onAction="#end_game" mnemonicParsing="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" styleClass="my-button" stylesheets="@style.css" text="Powrót">
+        <Button fx:id="end_button" onAction="#endGame" mnemonicParsing="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" styleClass="my-button" stylesheets="@style.css" text="Powrót">
             <StackPane.margin>
                 <Insets left="850.0" top="650.0" />
             </StackPane.margin>
