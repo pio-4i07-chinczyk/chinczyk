@@ -2,23 +2,6 @@ package edu.pio.chinczyk.game;
 
 public class Player {
 
-    public enum Color {
-        BLUE(0),
-        GREEN(1),
-        YELLOW(2),
-        RED(3);
-
-        private int index;
-
-        Color(int index) {
-            this.index = index;
-        }
-
-        public int getIndex() {
-            return index;
-        }
-    }
-
     public static final int LOBBY_TILES_N = 4;
     public static final int HOME_TILES_N = 4;
 
@@ -26,7 +9,7 @@ public class Player {
     private StartingTile startingTile;
     private final HomeTile[] homeTiles;
     private final Pawn[] pawns;
-    private Color color;
+    private final Color color;
 
     public Player(Color color) {
         this.lobbyTiles = new LobbyTile[LOBBY_TILES_N];

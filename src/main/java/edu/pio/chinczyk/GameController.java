@@ -4,6 +4,7 @@ import edu.pio.chinczyk.game.Board;
 import edu.pio.chinczyk.game.Pawn;
 import edu.pio.chinczyk.game.Player;
 import edu.pio.chinczyk.game.Tile;
+import edu.pio.chinczyk.game.Vec2i;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -120,7 +121,7 @@ public class GameController extends RootController implements Initializable {
 
         pawn.setTile(next);
 
-        Board.Pos2D coords = board.getTileCoords(new Board.Pos2D(600, 600), next.getPos());
+        Vec2i coords = board.getTileCoords(new Vec2i(600, 600), next.getPos());
 
         yellow_pawn_1.setX(coords.x);
         yellow_pawn_1.setY(coords.y);
