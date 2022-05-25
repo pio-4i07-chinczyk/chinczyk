@@ -162,7 +162,7 @@ public class GameController extends RootController implements Initializable {
         stage.show();
     }
 
-    private void showWinAlert(Player.Color winner) {
+    private void showWinAlert(Color winner) {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Game over");
