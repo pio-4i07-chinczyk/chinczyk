@@ -192,7 +192,7 @@ public class GameController extends RootController implements Initializable {
     }
 
     private boolean hasAnyoneWon() {
-        Function<ImageView[], boolean> allPawnsOnHome = (pawns) -> {
+        Function<ImageView[], Boolean> allPawnsOnHome = (pawns) -> {
             for(int pawnID = 0; pawnID < PAWNS_PER_PLAYER; ++pawnID) {
                 Pawn pawn = (Pawn) pawns[pawnID].getUserData();
 
@@ -205,7 +205,7 @@ public class GameController extends RootController implements Initializable {
 
         for(int playerID = 0; playerID < playersCount; ++playerID) {
             if(allPawnsOnHome.apply(pawns[playerID])) {
-                winner = Player.Color.values()[playerID];
+                winner = Color.values()[playerID];
                 return true;
             }
         }
