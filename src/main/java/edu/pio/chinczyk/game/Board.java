@@ -4,7 +4,7 @@ import java.util.TreeMap;
 
 public class Board {
     private static final int PLAYERS_N = 4;
-    private static final int TILES_N = 11;
+    public static final int TILES_N = 11;
     private static final int LONG_SIDE_N = 5;
     private final Vec2i size = new Vec2i(TILES_N, TILES_N);
 
@@ -65,17 +65,19 @@ public class Board {
     }
 
     private void addHomeTiles(Player player) {
-        int x = player.getColor().getHomePosition().x;
-        int y = player.getColor().getHomePosition().y;
-        int directionX = player.getColor().getHomeDirection().getVec().x;
-        int directionY = player.getColor().getHomeDirection().getVec().y;
+        Color color = player.getColor();
+        int x = color.getHomePosition().x;
+        int y = color.getHomePosition().y;
+        int directionX = color.getHomeDirection().getVec().x;
+        int directionY = color.getHomeDirection().getVec().y;
+
 
         Tile tile = new HomeTile(x, y);     // last home tile
-        tiles.put(player.getColor().getHomePosition(), tile);
+        tiles.put(color.getHomePosition(), tile);
 
         for(int tileNumber = 0; tileNumber < PLAYERS_N; ++tileNumber) {
             Tile temp = tile;
-            tile = new HomeTile(x + tileNumber * directionX, y + tileNumber * directionY, temp);
+            tile = new HomeTile(x + tileNumber * directionX, y + tileNumber * directionY, color, temp);
             tiles.put(tile.getPos(), tile);
         }
 

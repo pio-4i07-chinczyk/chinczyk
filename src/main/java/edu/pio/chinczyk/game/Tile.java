@@ -40,6 +40,17 @@ public class Tile {
         return this.next;
     }
 
+    public Tile getAlt() {
+        return alt;
+    }
+
+    public HomeTile tryHome() {
+        if(alt instanceof HomeTile)
+            return (HomeTile) alt;
+        else
+            return null;
+    }
+
     public void setNext(Tile next) {
         this.next = next;
     }

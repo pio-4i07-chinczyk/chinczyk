@@ -12,25 +12,15 @@ public class MenuController extends RootController {
 
     @FXML
     protected void onPlayClick(MouseEvent mouseEvent) {
-        LudoApp game = (LudoApp)(this.getApp());
-
-        Stage stage = game.getStage();
-        stage.setScene(game.getScene("game-selector.fxml"));
-        stage.show();
+        route("game-selector.fxml");
     }
 
     public void onRulesClick(MouseEvent mouseEvent) {
-        LudoApp game = (LudoApp)(this.getApp());
-
-        Stage stage = game.getStage();
-        stage.setScene(game.getScene("rules.fxml"));
-        stage.show();
+        route("rules.fxml");
     }
 
     public void onQuitClick(MouseEvent mouseEvent) {
-        LudoApp game = (LudoApp)(this.getApp());
-
-        Stage stage = game.getStage();
+        Stage stage = getApp().getStage();
         stage.hide();
     }
 }

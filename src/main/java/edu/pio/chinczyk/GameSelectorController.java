@@ -1,26 +1,32 @@
 package edu.pio.chinczyk;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class GameSelectorController extends RootController {
     @FXML
     Pane root;
 
-    public void onSelectClicked() {
-        LudoApp game = (LudoApp)(this.getApp());
+    private int players;
 
-        Stage stage = game.getStage();
-        stage.setScene(game.getScene("game.fxml"));
-        stage.show();
+    public int getPlayers() {
+        return players;
+    }
+
+    public void onSelectClicked(ActionEvent event) {
+        Button btn = (Button) event.getTarget();
+        players = Integer.parseInt((String) btn.getUserData());
+
+        route("game.fxml");
     }
 
     public void onReturnClicked() {
-        LudoApp game = (LudoApp)(this.getApp());
-
-        Stage stage = game.getStage();
-        stage.setScene(game.getScene("menu.fxml"));
-        stage.show();
+        route("menu.fxml");
     }
 }
