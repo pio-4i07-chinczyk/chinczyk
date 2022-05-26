@@ -291,8 +291,10 @@ public class GameController extends RootController implements Initializable {
                         current = alt;
                 }
                 else {
-                    if (next == null)
+                    if (next == null) {
+                        roundPlayer();
                         return;
+                    }
 
                     current = next;
                 }
