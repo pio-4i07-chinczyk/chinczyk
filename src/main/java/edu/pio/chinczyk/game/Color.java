@@ -1,10 +1,10 @@
 package edu.pio.chinczyk.game;
 
 public enum Color {
-    BLUE(0, new Vec2i(4, 10), new Vec2i(0, 10), new Vec2i(5, 6), Direction.DOWN),
-    GREEN(1, new Vec2i(6, 0), new Vec2i(10, 0), new Vec2i(5, 4), Direction.UP),
+    BLUE(0, new Vec2i(4, 10), new Vec2i(0, 9), new Vec2i(5, 6), Direction.DOWN),
+    GREEN(1, new Vec2i(6, 0), new Vec2i(9, 0), new Vec2i(5, 4), Direction.UP),
     YELLOW(2, new Vec2i(0, 4), new Vec2i(0, 0), new Vec2i(4, 5), Direction.LEFT),
-    RED(3, new Vec2i(10, 6), new Vec2i(10, 10), new Vec2i(6, 5), Direction.RIGHT);
+    RED(3, new Vec2i(10, 6), new Vec2i(9, 9), new Vec2i(6, 5), Direction.RIGHT);
 
     private final int index;
     private final Vec2i startingPosition;
