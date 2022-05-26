@@ -232,6 +232,24 @@ public class GameController extends RootController implements Initializable {
         return false;
     }
 
+    private LobbyTile findTileForKilledPawn(Player pawnOwner) {
+        if(pawnOwner != null) {
+            for(LobbyTile lobbyTile : pawnOwner.getLobbyTiles()) {
+                boolean free = true;
+                for(int pawnID = 0; pawnID < PAWNS_PER_PLAYER; ++pawnID) {
+                    if(pawnOwner.getPawn(pawnID).getTile() == lobbyTile) {
+                        free = false;
+                        break;
+                    }
+                }
+                if(free)
+                    return lobbyTile;
+            }
+        }
+
+        return null;
+    }
+
     public void onPawnClick(MouseEvent mouseEvent) {
         if(!selectPawn.get())
             return;
@@ -293,23 +311,41 @@ public class GameController extends RootController implements Initializable {
             }
         }
 
+        Vec2i boardSize = new Vec2i((int) board.getFitWidth(), (int) board.getFitHeight());
+        Vec2i tileSize = new Vec2i(boardSize.x / TILES_N, boardSize.y / TILES_N);
+
         if(!(current instanceof StartingTile)) {
             List<ImageView> pawnsToRemove = pawnsOnTile.stream().filter((testPawn) -> {
                 return ((Pawn) testPawn.getUserData()).getColor() != clickedPawnModel.getColor();
             }).toList();
 
-            pawnsOnTile.removeAll(pawnsToRemove);
-
             // TODO: Find place for removed pawns;
+            Board board = ((LudoApp)this.getApp()).getBoard();
+            Player pawnOwner = null;
+            for(ImageView pawn : pawnsToRemove) {
+                Pawn pawnToRemove = (Pawn)pawn.getUserData();
+
+                for(int playerID = 0; playerID < playersCount; ++playerID) {
+                    if(board.getPlayer(playerID).getColor() == pawnToRemove.getColor()) {
+                        pawnOwner = board.getPlayer(playerID);
+                    }
+                }
+                LobbyTile lobbyTile = findTileForKilledPawn(pawnOwner);
+                if(lobbyTile != null) {
+                    Vec2i coords = getApp().getBoard().getTileCoords(boardSize, lobbyTile.getPos());
+                    pawn.setLayoutX(coords.x);
+                    pawn.setLayoutY(coords.y);
+                    pawnToRemove.setTile(lobbyTile);
+                }
+            }
+
+            pawnsOnTile.removeAll(pawnsToRemove);
         }
 
         int tilesCount = pawnsOnTile.size();
-        int tileGrid = (int) ceil(sqrt(pawnsOnTile.size()));
-        Vec2i boardSize = new Vec2i((int) board.getFitWidth(), (int) board.getFitHeight());
-        Vec2i tileSize = new Vec2i(boardSize.x / TILES_N, boardSize.y / TILES_N);
-        Vec2i gridSize = new Vec2i(tileSize.x / tileGrid, tileSize.y / tileGrid);
-
         Vec2i coords = getApp().getBoard().getTileCoords(boardSize, current.getPos());
+        int tileGrid = (int) ceil(sqrt(pawnsOnTile.size()));
+        Vec2i gridSize = new Vec2i(tileSize.x / tileGrid, tileSize.y / tileGrid);
 
         for(int r = 0; r < tileGrid; ++r) {
             for(int c = 0; ((r * tileGrid) + c) < tilesCount; ++c) {
