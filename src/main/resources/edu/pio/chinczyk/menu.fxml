@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<Pane id="1" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      stylesheets="@style.css" styleClass="menu-parent"
-      prefHeight="426.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml" fx:controller="edu.pio.chinczyk.MenuController">
-   <Button onMouseClicked="#onPlayClick" layoutX="124.0" layoutY="112.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
-           prefHeight="35.0" prefWidth="344.0" style="-fx-background-color: #ffd22d;" text="Graj" />
-   <Button onMouseClicked="#onRulesClick" layoutX="124.0" layoutY="200.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
-           prefHeight="35.0" prefWidth="344.0" style="-fx-background-color: #ffd22d;" text="Instrukcja"/>
-   <Button onMouseClicked="#onQuitClick" layoutX="124.0" layoutY="290.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
-           prefHeight="35.0" prefWidth="344.0" style="-fx-background-color: #ffd22d;" text="Wyjdź"/>
-</Pane>
+<AnchorPane id="1" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="426.0" prefWidth="600.0" styleClass="menu-parent" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.pio.chinczyk.MenuController">
+   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="40.0" AnchorPane.bottomAnchor="81.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-4.800000000000011">
+   <Button layoutX="124.0" layoutY="112.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#onPlayClick" prefHeight="35.0" prefWidth="344.0" styleClass="my-button" stylesheets="@style.css" text="Graj" />
+   <Button layoutX="124.0" layoutY="200.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#onRulesClick" prefHeight="35.0" prefWidth="344.0" styleClass="my-button" stylesheets="@style.css" text="Instrukcja" />
+   <Button layoutX="124.0" layoutY="290.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#onQuitClick" prefHeight="35.0" prefWidth="344.0" styleClass="my-button" stylesheets="@style.css" text="Wyjdź" />
+      <padding>
+         <Insets top="90.0" />
+      </padding>
+</VBox>
+</AnchorPane>

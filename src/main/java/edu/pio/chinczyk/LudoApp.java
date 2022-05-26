@@ -18,18 +18,19 @@ public class LudoApp extends Application {
     };
 
     private final HashMap<String, Scene> scenes;
+    private final HashMap<Scene, RootController> controllers;
     private Stage stage = null;
     private final Board board;
 
     public LudoApp() {
         scenes = new HashMap<>();
+        controllers = new HashMap<>();
+        board = new Board();
 
         loadScenes();
-        board = new Board();
     }
 
     private void loadScenes() {
-
         for (String path : LudoApp.scenePaths) {
             URL sceneURL = LudoApp.class.getResource(path);
             if (sceneURL == null) {
@@ -37,16 +38,17 @@ public class LudoApp extends Application {
             }
 
             try {
-                FXMLLoader loader = new FXMLLoader();
-
-                loader.setLocation(sceneURL);
+                FXMLLoader loader = new FXMLLoader(sceneURL);
                 Scene scene = new Scene(loader.load());
-                scenes.put(path, scene);
 
-                RootController appInjectable = (RootController) loader.getController();
-                appInjectable.setApp(this);
+                RootController controller = loader.getController();
+                controller.setApp(this);
+
+                scenes.put(path, scene);
+                controllers.put(scene, controller);
             }
-            catch (Exception ignore) {
+            catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
@@ -59,6 +61,10 @@ public class LudoApp extends Application {
         return scenes.getOrDefault(path, null);
     }
 
+    public RootController getController(Scene scene) {
+        return controllers.get(scene);
+    }
+
     public Board getBoard() {
         return board;
     }
@@ -66,6 +72,9 @@ public class LudoApp extends Application {
     @Override
     public void start(Stage stage) {
         this.stage = stage;
+
+        for(RootController controller : controllers.values())
+            controller.runBeforeStart();
 
         stage.setTitle("CHINCZYK!");
         stage.setScene(this.getScene("menu.fxml"));

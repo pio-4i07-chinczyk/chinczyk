@@ -10,10 +10,6 @@ public class RulesController extends RootController {
     public AnchorPane root;
 
     public void onReturnClick() {
-        LudoApp game = (LudoApp)(this.getApp());
-
-        Stage stage = game.getStage();
-        stage.setScene(game.getScene("menu.fxml"));
-        stage.show();
+        route("menu.fxml");
     }
 }
