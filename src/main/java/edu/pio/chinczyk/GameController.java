@@ -319,7 +319,6 @@ public class GameController extends RootController implements Initializable {
                 return ((Pawn) testPawn.getUserData()).getColor() != clickedPawnModel.getColor();
             }).toList();
 
-            // TODO: Find place for removed pawns;
             Board board = ((LudoApp)this.getApp()).getBoard();
             Player pawnOwner = null;
             for(ImageView pawn : pawnsToRemove) {
