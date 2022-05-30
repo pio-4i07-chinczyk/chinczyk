@@ -122,7 +122,11 @@
             </image>
         </ImageView>
 
-        <Label fx:id="status" layoutY="630.0" text="Ruch zielonego!" layoutX="250.0"/>
+        <Label fx:id="status" layoutY="630.0" layoutX="250.0" style="-fx-font-size: 20px; -fx-font-weight: 700;">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+        </Label>
 
         <Button fx:id="end_button" onAction="#endGame" mnemonicParsing="false"
                 maxHeight="-Infinity" maxWidth="-Infinity"

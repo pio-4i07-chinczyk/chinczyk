@@ -5,10 +5,13 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -28,6 +31,10 @@ public class GameController extends RootController implements Initializable {
     private static final int PAWNS_PER_PLAYER = 4;
     private static final int ENTRY_ROLL_VALUE = 6;
     private static final int REPEAT_ROLL_VALUE = 6;
+    public static final String HTML_WHITE = "white";
+    public static final String HTML_BLACK = "black";
+    public static final String GAME_OVER = "Game over";
+    public static final String MENU_FXML_FILE = "menu.fxml";
 
     @FXML
     private Label status;
@@ -113,6 +120,8 @@ public class GameController extends RootController implements Initializable {
             setPlayersCount(((GameSelectorController) previous).getPlayers());
             resetPawns();
             currentPlayer = 0;
+            selectPawn.set(true);
+            selectPawn.set(false);
         }
     }
 
@@ -370,7 +379,7 @@ public class GameController extends RootController implements Initializable {
         LudoApp game = (LudoApp)(this.getApp());
 
         Stage stage = game.getStage();
-        stage.setScene(game.getScene("menu.fxml"));
+        stage.setScene(game.getScene(MENU_FXML_FILE));
         stage.show();
     }
 
@@ -380,17 +389,17 @@ public class GameController extends RootController implements Initializable {
       
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Game over");
-            alert.setHeaderText("Game over");
+            alert.setTitle(GAME_OVER);
+            alert.setHeaderText(GAME_OVER);
 
-            alert.setContentText(winner.toString() + " wins!");
+            alert.setContentText(winner.toString() + " wygral!");
 
             alert.showAndWait().ifPresent(rs -> {
                 if (rs == ButtonType.OK) {
                     LudoApp game = (LudoApp)(this.getApp());
 
                     Stage stage = game.getStage();
-                    stage.setScene(game.getScene("menu.fxml"));
+                    stage.setScene(game.getScene(MENU_FXML_FILE));
                     stage.show();
                 }
             });
@@ -429,11 +438,11 @@ public class GameController extends RootController implements Initializable {
         bindPawns();
         currentPlayer = 0;
         rollInSerie = 0;
-        playersCount = 4;
+        playersCount = 2;  //always changed in beforeRoute
 
-        selectPawn.set(true);
-        selectPawn.addListener((obs, from, to) -> {
-            String currentName = Color.values()[currentPlayer].toString();
+        selectPawn.addListener((ignored, from, to) -> {
+            Color playerColor = Color.values()[currentPlayer];
+            String currentName = playerColor.toString();
 
             if(to) {
                 status.setText(currentName + " wybiera pionka!");
@@ -442,8 +451,11 @@ public class GameController extends RootController implements Initializable {
                 status.setText(currentName + " losuje!");
                 dice.setWaitingForRoll(true);
             }
+
+            Paint bgPaint = Paint.valueOf(currentName.toLowerCase());
+            status.setBackground(Background.fill(bgPaint));
+            status.setTextFill((playerColor.getPaint()));
         });
-        selectPawn.set(false);
 
         winner = null;
         dice.setWaitingForRoll(true);
