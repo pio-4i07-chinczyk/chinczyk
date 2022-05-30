@@ -6,6 +6,7 @@ public class Board {
     private static final int PLAYERS_NUMBER = 4;
     public static final int TILES_NUMBER = 11;
     private static final int LONG_SIDE_TILES_NUMBER = 5;
+    private static final int LOBBY_WIDTH = 2;
     private final Vec2i size = new Vec2i(TILES_NUMBER, TILES_NUMBER);
 
     private final Player[] players;
@@ -47,13 +48,13 @@ public class Board {
         int x = player.getColor().getLobbyPosition().x;
         int y = player.getColor().getLobbyPosition().y;
 
-        for(int i = 0; i < 2; ++i) {
-            for(int j = 0; j < 2; ++j) {
+        for(int i = 0; i < LOBBY_WIDTH; ++i) {
+            for(int j = 0; j < LOBBY_WIDTH; ++j) {
                 LobbyTile lobbyTile = new LobbyTile(x + j, y + i);
                 tiles.put(lobbyTile.getPos(), lobbyTile);
                 lobbyTile.setNext(startingTile);
 
-                int index = (i * 2) + j;
+                int index = (i * LOBBY_WIDTH) + j;
 
                 Pawn pawn = new Pawn(player.getColor());
                 pawn.setTile(lobbyTile);

@@ -10,6 +10,8 @@ import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 import java.util.Random;
 
+import static edu.pio.chinczyk.LudoApp.DICE_FXML_FILE;
+
 public class DiceController extends ImageView {
     @FXML
     private ImageView dice;
@@ -19,7 +21,7 @@ public class DiceController extends ImageView {
     private boolean waitingForRoll = false;
 
     public DiceController() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dice.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(DICE_FXML_FILE));
         fxmlLoader.setController(this);
         fxmlLoader.setRoot(this);
 

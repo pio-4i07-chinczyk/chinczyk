@@ -1,9 +1,8 @@
 package edu.pio.chinczyk.game;
 
-public class Player {
+import static edu.pio.chinczyk.GameController.PAWNS_PER_PLAYER;
 
-    public static final int LOBBY_TILES_NUMBER = 4;
-    public static final int HOME_TILES_NUMBER = 4;
+public class Player {
 
     private final LobbyTile[] lobbyTiles;
     private StartingTile startingTile;
@@ -12,11 +11,11 @@ public class Player {
     private final Color color;
 
     public Player(Color color) {
-        this.lobbyTiles = new LobbyTile[LOBBY_TILES_NUMBER];
+        this.lobbyTiles = new LobbyTile[PAWNS_PER_PLAYER];
         this.startingTile = null;
-        this.homeTiles = new HomeTile[HOME_TILES_NUMBER];
+        this.homeTiles = new HomeTile[PAWNS_PER_PLAYER];
         this.color = color;
-        this.pawns = new Pawn[4];
+        this.pawns = new Pawn[PAWNS_PER_PLAYER];
     }
 
     public void setStartingTile(StartingTile startingTile) {

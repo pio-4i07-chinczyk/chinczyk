@@ -9,6 +9,9 @@ import javafx.scene.layout.Pane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static edu.pio.chinczyk.LudoApp.GAME_FXML_FILE;
+import static edu.pio.chinczyk.LudoApp.MENU_FXML_FILE;
+
 public class GameSelectorController extends RootController {
     @FXML
     Pane root;
@@ -23,10 +26,10 @@ public class GameSelectorController extends RootController {
         Button btn = (Button) event.getTarget();
         players = Integer.parseInt((String) btn.getUserData());
 
-        route("game.fxml");
+        route(GAME_FXML_FILE);
     }
 
     public void onReturnClicked() {
-        route("menu.fxml");
+        route(MENU_FXML_FILE);
     }
 }

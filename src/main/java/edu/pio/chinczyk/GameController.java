@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 
+import static edu.pio.chinczyk.LudoApp.MENU_FXML_FILE;
 import static edu.pio.chinczyk.game.Board.TILES_NUMBER;
 import static java.lang.Math.ceil;
 import static java.lang.Math.sqrt;
@@ -27,13 +28,17 @@ public class GameController extends RootController implements Initializable {
     private static final int MAX_PLAYERS = 4;
     private static final int MIN_PLAYERS = 1;
     private static final int FIRST_PLAYER = 0;
-    private static final int PAWNS_PER_PLAYER = 4;
+    public static final int PAWNS_PER_PLAYER = 4;
+    private static final int FIRST_ROLL_IN_SERIES = 0;
+    private static final int MAX_ROLL_IN_SERIES = 3;
     private static final int ENTRY_ROLL_VALUE = 6;
     private static final int REPEAT_ROLL_VALUE = 6;
     public static final String HTML_WHITE = "white";
     public static final String HTML_BLACK = "black";
-    public static final String GAME_OVER = "Game over";
-    public static final String MENU_FXML_FILE = "menu.fxml";
+    private static final String GAME_OVER = "Game over";
+    private static final String PAWN_COMMUNICATE = " wybiera pionka!";
+    private static final String ROLL_COMMUNICATE = " losuje!";
+    private static final String WON_COMMUNICATE = " wygral!";
 
     @FXML
     private Label status;
@@ -118,7 +123,7 @@ public class GameController extends RootController implements Initializable {
         if(previous instanceof GameSelectorController) {
             setPlayersCount(((GameSelectorController) previous).getPlayers());
             resetPawns();
-            currentPlayer = 0;
+            currentPlayer = FIRST_PLAYER;
             selectPawn.set(true);
             selectPawn.set(false);
         }
@@ -274,16 +279,16 @@ public class GameController extends RootController implements Initializable {
         if(current instanceof LobbyTile) {
             if(diceResult == ENTRY_ROLL_VALUE) {
                 current = current.getNext();
-                rollInSerie = 0;
+                rollInSerie = FIRST_ROLL_IN_SERIES;
             }
             else {
                 if(isPlayerOnBoard(currentPlayer))
                     return;
 
                 ++rollInSerie;
-                if(rollInSerie >= 3) {
+                if(rollInSerie >= MAX_ROLL_IN_SERIES) {
                     roundPlayer();
-                    rollInSerie = 0;
+                    rollInSerie = FIRST_ROLL_IN_SERIES;
                 }
 
                 selectPawn.set(false);
@@ -391,7 +396,7 @@ public class GameController extends RootController implements Initializable {
             alert.setTitle(GAME_OVER);
             alert.setHeaderText(GAME_OVER);
 
-            alert.setContentText(winner.toString() + " wygral!");
+            alert.setContentText(winner.toString() + WON_COMMUNICATE);
 
             alert.showAndWait().ifPresent(rs -> {
                 if (rs == ButtonType.OK) {
@@ -435,24 +440,24 @@ public class GameController extends RootController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         bindPawns();
-        currentPlayer = 0;
-        rollInSerie = 0;
-        playersCount = 2;  //always changed in beforeRoute
+        currentPlayer = FIRST_PLAYER;
+        rollInSerie = FIRST_ROLL_IN_SERIES;
+        playersCount = MIN_PLAYERS;  //always changed in beforeRoute
 
         selectPawn.addListener((ignored, from, to) -> {
             Color playerColor = Color.values()[currentPlayer];
             String currentName = playerColor.toString();
 
             if(to) {
-                status.setText(currentName + " wybiera pionka!");
+                status.setText(currentName + PAWN_COMMUNICATE);
             }
             else {
-                status.setText(currentName + " losuje!");
+                status.setText(currentName + ROLL_COMMUNICATE);
                 dice.setWaitingForRoll(true);
             }
 
-            Paint bgPaint = Paint.valueOf(currentName.toLowerCase());
-            status.setBackground(Background.fill(bgPaint));
+            Paint backgroundPaint = Paint.valueOf(currentName.toLowerCase());
+            status.setBackground(Background.fill(backgroundPaint));
             status.setTextFill((playerColor.getPaint()));
         });
 
