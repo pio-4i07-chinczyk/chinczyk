@@ -3,17 +3,17 @@ package edu.pio.chinczyk.game;
 import java.util.TreeMap;
 
 public class Board {
-    private static final int PLAYERS_N = 4;
-    public static final int TILES_N = 11;
-    private static final int LONG_SIDE_N = 5;
-    private final Vec2i size = new Vec2i(TILES_N, TILES_N);
+    private static final int PLAYERS_NUMBER = 4;
+    public static final int TILES_NUMBER = 11;
+    private static final int LONG_SIDE_TILES_NUMBER = 5;
+    private final Vec2i size = new Vec2i(TILES_NUMBER, TILES_NUMBER);
 
     private final Player[] players;
     private final TreeMap<Vec2i, Tile> tiles;
 
     public Board() {
         this.tiles = new TreeMap<>();
-        this.players = new Player[PLAYERS_N];
+        this.players = new Player[PLAYERS_NUMBER];
 
         addPlayer(Color.BLUE);
         addPlayer(Color.GREEN);
@@ -75,13 +75,13 @@ public class Board {
         Tile tile = new HomeTile(x, y);     // last home tile
         tiles.put(color.getHomePosition(), tile);
 
-        for(int tileNumber = 0; tileNumber < PLAYERS_N; ++tileNumber) {
+        for(int tileNumber = 0; tileNumber < PLAYERS_NUMBER; ++tileNumber) {
             Tile temp = tile;
             tile = new HomeTile(x + tileNumber * directionX, y + tileNumber * directionY, color, temp);
             tiles.put(tile.getPos(), tile);
         }
 
-        Tile entryTile = tiles.get(new Vec2i( x+ PLAYERS_N * directionX, y + PLAYERS_N * directionY));
+        Tile entryTile = tiles.get(new Vec2i( x+ PLAYERS_NUMBER * directionX, y + PLAYERS_NUMBER * directionY));
         entryTile.setAlt(tile);
     }
 
@@ -104,7 +104,7 @@ public class Board {
         currentTile = new Tile(currentPosition.x, currentPosition.y, nextTile);
         tiles.put(currentTile.getPos(), currentTile);
 
-        for(int tileInRow = 0; tileInRow < LONG_SIDE_N - 1; ++tileInRow) {
+        for(int tileInRow = 0; tileInRow < LONG_SIDE_TILES_NUMBER - 1; ++tileInRow) {
             nextTile = currentTile;
             currentPosition.x = currentPosition.x + secondDirection.getVec().x;
             currentPosition.y = currentPosition.y + secondDirection.getVec().y;
@@ -112,7 +112,7 @@ public class Board {
             tiles.put(currentTile.getPos(), currentTile);
         }
 
-        for(int tileInRow = 0; tileInRow < LONG_SIDE_N - 2; ++tileInRow) {
+        for(int tileInRow = 0; tileInRow < LONG_SIDE_TILES_NUMBER - 2; ++tileInRow) {
             nextTile = currentTile;
             currentPosition.x = currentPosition.x + firstDirection.getVec().x;
             currentPosition.y = currentPosition.y + firstDirection.getVec().y;
@@ -136,6 +136,6 @@ public class Board {
     }
 
     public Vec2i getTileCoords(Vec2i size, Vec2i pos) {
-        return new Vec2i((size.x / TILES_N) * pos.x ,(size.y / TILES_N) * pos.y);
+        return new Vec2i((size.x / TILES_NUMBER) * pos.x ,(size.y / TILES_NUMBER) * pos.y);
     }
 }

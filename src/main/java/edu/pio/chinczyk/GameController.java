@@ -5,7 +5,6 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 
-import static edu.pio.chinczyk.game.Board.TILES_N;
+import static edu.pio.chinczyk.game.Board.TILES_NUMBER;
 import static java.lang.Math.ceil;
 import static java.lang.Math.sqrt;
 
@@ -141,7 +140,7 @@ public class GameController extends RootController implements Initializable {
         Board boardModel = getApp().getBoard();
 
         Vec2i boardSize = new Vec2i((int) board.getFitWidth(), (int) board.getFitHeight());
-        Vec2i tileSize = new Vec2i(boardSize.x / TILES_N, boardSize.y / TILES_N);
+        Vec2i tileSize = new Vec2i(boardSize.x / TILES_NUMBER, boardSize.y / TILES_NUMBER);
 
         for(int p = 0; p < playersCount; ++p) {
             Player player = boardModel.getPlayer(p);
@@ -323,7 +322,7 @@ public class GameController extends RootController implements Initializable {
         }
 
         Vec2i boardSize = new Vec2i((int) board.getFitWidth(), (int) board.getFitHeight());
-        Vec2i tileSize = new Vec2i(boardSize.x / TILES_N, boardSize.y / TILES_N);
+        Vec2i tileSize = new Vec2i(boardSize.x / TILES_NUMBER, boardSize.y / TILES_NUMBER);
 
         if(!(current instanceof StartingTile)) {
             List<ImageView> pawnsToRemove = pawnsOnTile.stream().filter((testPawn) -> {
