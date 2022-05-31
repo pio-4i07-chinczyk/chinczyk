@@ -29,9 +29,9 @@ public class GameController extends RootController implements Initializable {
     private static final int MIN_PLAYERS = 1;
     private static final int FIRST_PLAYER = 0;
     public static final int PAWNS_PER_PLAYER = 4;
-    private static final int FIRST_ROLL_IN_SERIES = 0;
-    private static final int MAX_ROLL_IN_SERIES = 3;
-    private static final int ENTRY_ROLL_VALUE = 6;
+    public static final int FIRST_ROLL_IN_SERIES = 0;
+    public static final int MAX_ROLL_IN_SERIES = 3;
+    public static final int ENTRY_ROLL_VALUE = 6;
     private static final int REPEAT_ROLL_VALUE = 6;
     public static final String HTML_WHITE = "white";
     public static final String HTML_BLACK = "black";
