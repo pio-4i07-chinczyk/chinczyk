@@ -352,6 +352,8 @@ public class GameController extends RootController implements Initializable {
                     Vec2i coords = getApp().getBoard().getTilePos(boardSize, lobbyTile.getPos());
                     pawn.setLayoutX(coords.x);
                     pawn.setLayoutY(coords.y);
+                    pawn.setFitWidth(tileSize.x);
+                    pawn.setFitHeight(tileSize.y);
                     pawnToRemove.setTile(lobbyTile);
                 }
             }
