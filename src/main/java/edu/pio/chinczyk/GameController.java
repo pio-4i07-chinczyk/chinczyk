@@ -2,10 +2,8 @@ package edu.pio.chinczyk;
 
 import edu.pio.chinczyk.game.*;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -14,22 +12,21 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.function.Function;
+import java.util.*;
 
 import static edu.pio.chinczyk.LudoApp.MENU_FXML_FILE;
 import static edu.pio.chinczyk.game.Board.TILES_NUMBER;
+import static edu.pio.chinczyk.game.Color.*;
 import static java.lang.Math.ceil;
 import static java.lang.Math.sqrt;
 
 public class GameController extends RootController implements Initializable {
     private static final int MAX_PLAYERS = 4;
-    private static final int MIN_PLAYERS = 1;
+    private static final int MIN_PLAYERS = 2;
     private static final int FIRST_PLAYER = 0;
+    private static final int FIRST_PAWN = 0;
     public static final int PAWNS_PER_PLAYER = 4;
-    public static final int FIRST_ROLL_IN_SERIES = 0;
+    public static final int ROLL_IN_SERIES_INIT = 0;
     public static final int MAX_ROLL_IN_SERIES = 3;
     public static final int ENTRY_ROLL_VALUE = 6;
     private static final int REPEAT_ROLL_VALUE = 6;
@@ -38,15 +35,12 @@ public class GameController extends RootController implements Initializable {
     private static final String GAME_OVER = "Game over";
     private static final String PAWN_COMMUNICATE = " wybiera pionka!";
     private static final String ROLL_COMMUNICATE = " losuje!";
-    private static final String WON_COMMUNICATE = " wygral!";
+    private static final String WON_COMMUNICATE = "Zwyciezcy:";
+    private static final int FIRST_RANK = 1;
 
     @FXML
     private Label status;
 
-    @FXML
-    private Parent root;
-    @FXML
-    private Button end_button;
     @FXML
     private ImageView board;
 
@@ -101,15 +95,24 @@ public class GameController extends RootController implements Initializable {
     @FXML
     private DiceController dice;
 
-    int currentPlayer;
-    Color winner;
     int playersCount;
+
+    GameState state;
+    Player currentPlayer;
     int rollInSerie;
-    private final SimpleBooleanProperty selectPawn;
+    private final Queue<Player> playersQueue;
+    private final List<Player> winners;
+
     private final ImageView[][] pawns;
 
     public GameController() {
-        selectPawn = new SimpleBooleanProperty();
+        playersCount = 0;
+        state = GameState.WAITS_FOR_ROLL;
+        currentPlayer = null;
+        rollInSerie = 0;
+        playersQueue = new LinkedList<>();
+        winners = new ArrayList<>();
+
         pawns = new ImageView[MAX_PLAYERS][PAWNS_PER_PLAYER];
     }
 
@@ -120,18 +123,47 @@ public class GameController extends RootController implements Initializable {
 
     @Override
     public void runBeforeRoute(RootController previous) {
-        if(previous instanceof GameSelectorController) {
-            setPlayersCount(((GameSelectorController) previous).getPlayers());
-            resetPawns();
-            currentPlayer = FIRST_PLAYER;
-            selectPawn.set(true);
-            selectPawn.set(false);
+        if(!(previous instanceof GameSelectorController)) {
+            return;
+        }
+
+        this.playersCount = ((GameSelectorController) previous).getPlayers();
+
+        resetPawns();
+        hideUnusedPawns();
+        initPlayersQueue();
+        winners.clear();
+        currentPlayer = playersQueue.poll();
+        setState(GameState.WAITS_FOR_ROLL);
+    }
+
+    private void resetPawns() {
+        Board boardModel = getApp().getBoard();
+
+        Vec2i boardSize = new Vec2i((int) board.getFitWidth(), (int) board.getFitHeight());
+        Vec2i tileSize = new Vec2i(boardSize.x / TILES_NUMBER, boardSize.y / TILES_NUMBER);
+
+        for(int playerId = 0; playerId < playersCount; ++playerId) {
+            Player player = boardModel.getPlayer(playerId);
+            LobbyTile[] lobby = player.getLobbyTiles();
+
+            for(int pawnId = 0; pawnId < PAWNS_PER_PLAYER; ++pawnId) {
+                ImageView view = pawns[playerId][pawnId];
+                Pawn model = (Pawn) view.getUserData();
+
+                Tile tile = lobby[pawnId];
+                model.setTile(tile);
+
+                Vec2i coords = getApp().getBoard().getTilePos(boardSize, tile.getPos());
+                view.setFitWidth(tileSize.x);
+                view.setFitHeight(tileSize.y);
+                view.setLayoutX(coords.x);
+                view.setLayoutY(coords.y);
+            }
         }
     }
 
-    public void setPlayersCount(int playersCount) {
-        this.playersCount = playersCount;
-
+    private void hideUnusedPawns() {
         for(int i = 0; i < MAX_PLAYERS; ++i) {
             ImageView[] playerPawns = pawns[i];
 
@@ -141,30 +173,37 @@ public class GameController extends RootController implements Initializable {
         }
     }
 
-    private void resetPawns() {
-        Board boardModel = getApp().getBoard();
+    private void initPlayersQueue() {
+        Board board = getApp().getBoard();
+        playersQueue.clear();
 
-        Vec2i boardSize = new Vec2i((int) board.getFitWidth(), (int) board.getFitHeight());
-        Vec2i tileSize = new Vec2i(boardSize.x / TILES_NUMBER, boardSize.y / TILES_NUMBER);
-
-        for(int p = 0; p < playersCount; ++p) {
-            Player player = boardModel.getPlayer(p);
-            LobbyTile[] lobby = player.getLobbyTiles();
-
-            for(int q = 0; q < PAWNS_PER_PLAYER; ++q) {
-                ImageView view = pawns[p][q];
-                Pawn model = (Pawn) view.getUserData();
-
-                Tile tile = lobby[q];
-                model.setTile(tile);
-
-                Vec2i coords = getApp().getBoard().getTileCoords(boardSize, tile.getPos());
-                view.setFitWidth(tileSize.x);
-                view.setFitHeight(tileSize.y);
-                view.setLayoutX(coords.x);
-                view.setLayoutY(coords.y);
-            }
+        playersQueue.add(board.getPlayer(BLUE.getIndex()));
+        if(playersCount > 2) {
+            playersQueue.add(board.getPlayer(YELLOW.getIndex()));
         }
+        playersQueue.add(board.getPlayer(GREEN.getIndex()));
+        if(playersCount > 3) {
+            playersQueue.add(board.getPlayer(RED.getIndex()));
+        }
+    }
+
+    private void setState(GameState newState) {
+        state = newState;
+        Color playerColor = currentPlayer.getColor();
+        String currentName = playerColor.toString();
+
+        if(newState == GameState.WAITS_FOR_ROLL) {
+            status.setText(currentName + ROLL_COMMUNICATE);
+            dice.setWaitingForRoll(true);
+        }
+
+        if(newState == GameState.WAITS_FOR_CHOICE) {
+            status.setText(currentName + PAWN_COMMUNICATE);
+        }
+
+        Paint backgroundPaint = Paint.valueOf(currentName.toLowerCase());
+        status.setBackground(Background.fill(backgroundPaint));
+        status.setTextFill((playerColor.getPaint()));
     }
 
     private void bindPawns() {
@@ -190,7 +229,7 @@ public class GameController extends RootController implements Initializable {
     }
 
     private void bindPawnsToModel() {
-        Board board = ((LudoApp)this.getApp()).getBoard();
+        Board board = this.getApp().getBoard();
 
         for(int playerID = 0; playerID < MAX_PLAYERS; ++playerID) {
             Player player = board.getPlayer(playerID);
@@ -202,141 +241,104 @@ public class GameController extends RootController implements Initializable {
     }
 
     public void onDiceClick() {
-        selectPawn.set(true);
-    }
+        if(state != GameState.WAITS_FOR_ROLL)
+            return;
 
-    public void roundPlayer() {
-        switch(playersCount) {
-            case 2:
-                currentPlayer = switch(currentPlayer) {
-                    case 0 -> 1;
-                    default -> 0;
-                };
-                break;
-            case 3:
-                currentPlayer = switch(currentPlayer) {
-                    case 0 -> 2;
-                    case 2 -> 1;
-                    default -> 0;
-                };
-                break;
-            case 4:
-                currentPlayer = switch(currentPlayer) {
-                    case 0 -> 2;
-                    case 1 -> 3;
-                    case 2 -> 1;
-                    default -> 0;
-                };
-                break;
-            default:
-                currentPlayer = 0;
+        if(currentPlayer.isOnlyInLobby()) {
+            rollInSerie++;
+
+            if(dice.getRollResult() == ENTRY_ROLL_VALUE) {
+                setState(GameState.WAITS_FOR_CHOICE);
+                return;
+            }
+
+            if(rollInSerie < MAX_ROLL_IN_SERIES) {
+                setState(GameState.WAITS_FOR_ROLL);
+                return;
+            }
+
+            rollInSerie = ROLL_IN_SERIES_INIT;
+            enqueueCurrentPlayer();
+        }
+        else {
+            if(currentPlayer.canMoveBy(dice.getRollResult())) {
+                setState(GameState.WAITS_FOR_CHOICE);
+                return;
+            }
+
+            if(dice.getRollResult() == REPEAT_ROLL_VALUE) {
+                setState(GameState.WAITS_FOR_ROLL);
+                return;
+            }
+
+            enqueueCurrentPlayer();
         }
     }
 
-    public boolean isPlayerOnBoard(int player) {
-        ImageView[] playerPawns = pawns[player];
+    void enqueueCurrentPlayer() {
+        playersQueue.add(currentPlayer);
 
-        for(int i = 0; i < PAWNS_PER_PLAYER; ++i) {
-            Pawn pawn = (Pawn) playerPawns[i].getUserData();
-            if(!(pawn.getTile() instanceof LobbyTile))
-                return true;
+        if(playersQueue.size() >= MIN_PLAYERS) {
+            currentPlayer = playersQueue.poll();
+            setState(GameState.WAITS_FOR_ROLL);
+            return;
         }
 
-        return false;
+        showWinAlert();
     }
 
     private LobbyTile findTileForKilledPawn(Player pawnOwner) {
-        if(pawnOwner != null) {
-            for(LobbyTile lobbyTile : pawnOwner.getLobbyTiles()) {
-                boolean free = true;
-                for(int pawnID = 0; pawnID < PAWNS_PER_PLAYER; ++pawnID) {
-                    if(pawnOwner.getPawn(pawnID).getTile() == lobbyTile) {
-                        free = false;
-                        break;
-                    }
+        if(pawnOwner == null) {
+            return null;
+        }
+
+        for(LobbyTile lobbyTile : pawnOwner.getLobbyTiles()) {
+            boolean free = true;
+
+            for(int pawnID = FIRST_PAWN; pawnID < PAWNS_PER_PLAYER; ++pawnID) {
+                if(pawnOwner.getPawn(pawnID).getTile() == lobbyTile) {
+                    free = false;
+                    break;
                 }
-                if(free)
-                    return lobbyTile;
+            }
+
+            if(free) {
+                return lobbyTile;
             }
         }
 
         return null;
     }
 
-    public void onPawnClick(MouseEvent mouseEvent) {
-        if(!selectPawn.get())
-            return;
-
-        int diceResult = dice.getRollResult();
-        ImageView clickedPawnView = (ImageView) mouseEvent.getTarget();
-        Pawn clickedPawnModel = (Pawn) clickedPawnView.getUserData();
-
-        if(currentPlayer != clickedPawnModel.getColor().getIndex())
-            return;
-
-        Tile current = clickedPawnModel.getTile();
-
-        if(current instanceof LobbyTile) {
-            if(diceResult == ENTRY_ROLL_VALUE) {
-                current = current.getNext();
-                rollInSerie = FIRST_ROLL_IN_SERIES;
-            }
-            else {
-                if(isPlayerOnBoard(currentPlayer))
-                    return;
-
-                ++rollInSerie;
-                if(rollInSerie >= MAX_ROLL_IN_SERIES) {
-                    roundPlayer();
-                    rollInSerie = FIRST_ROLL_IN_SERIES;
-                }
-
-                selectPawn.set(false);
-                return;
-            }
-        }
-        else {
-            for (int i = 0; i < dice.getRollResult(); ++i) {
-                Tile next = current.getNext();
-                Tile alt = current.getAlt();
-
-                if((alt instanceof HomeTile) && ((HomeTile)alt).getColor().getIndex() == currentPlayer) {
-                        current = alt;
-                }
-                else {
-                    if (next == null) {
-                        roundPlayer();
-                        return;
-                    }
-
-                    current = next;
-                }
-            }
-        }
-
-        clickedPawnModel.setTile(current);
+    private void movePawnToTile(Pawn movedPawn, Tile destination) {
+        movedPawn.setTile(destination);
 
         List<ImageView> pawnsOnTile = new ArrayList<>();
-        for(int i = 0; i < playersCount; ++i) {
-            for(int j = 0; j < PAWNS_PER_PLAYER; ++j) {
-                ImageView pawnView = pawns[i][j];
+        for(int playerId = FIRST_PLAYER; playerId < playersCount; ++playerId) {
+            for(int pawnId = FIRST_PAWN; pawnId < PAWNS_PER_PLAYER; ++pawnId) {
+                ImageView pawnView = pawns[playerId][pawnId];
                 Pawn pawnModel = (Pawn) pawnView.getUserData();
-                if(pawnModel.getTile() == current)
+
+                if(pawnModel.getTile() == destination) {
                     pawnsOnTile.add(pawnView);
+                }
             }
         }
 
         Vec2i boardSize = new Vec2i((int) board.getFitWidth(), (int) board.getFitHeight());
         Vec2i tileSize = new Vec2i(boardSize.x / TILES_NUMBER, boardSize.y / TILES_NUMBER);
 
-        if(!(current instanceof StartingTile)) {
-            List<ImageView> pawnsToRemove = pawnsOnTile.stream().filter((testPawn) -> {
-                return ((Pawn) testPawn.getUserData()).getColor() != clickedPawnModel.getColor();
+        // if destinated tile does not protect against capturing a pawn
+        if(!(destination instanceof StartingTile)) {
+            List<ImageView> pawnsToCapture = pawnsOnTile.stream().filter( pawn -> {
+                Pawn pawnModel = (Pawn) pawn.getUserData();
+                return pawnModel.getColor() != movedPawn.getColor();
             }).toList();
 
-            Board board = ((LudoApp)this.getApp()).getBoard();
+            Board board = this.getApp().getBoard();
             Player pawnOwner = null;
-            for(ImageView pawn : pawnsToRemove) {
+
+            for(ImageView pawn : pawnsToCapture) {
                 Pawn pawnToRemove = (Pawn)pawn.getUserData();
 
                 for(int playerID = 0; playerID < playersCount; ++playerID) {
@@ -344,63 +346,109 @@ public class GameController extends RootController implements Initializable {
                         pawnOwner = board.getPlayer(playerID);
                     }
                 }
+
                 LobbyTile lobbyTile = findTileForKilledPawn(pawnOwner);
                 if(lobbyTile != null) {
-                    Vec2i coords = getApp().getBoard().getTileCoords(boardSize, lobbyTile.getPos());
+                    Vec2i coords = getApp().getBoard().getTilePos(boardSize, lobbyTile.getPos());
                     pawn.setLayoutX(coords.x);
                     pawn.setLayoutY(coords.y);
                     pawnToRemove.setTile(lobbyTile);
                 }
             }
 
-            pawnsOnTile.removeAll(pawnsToRemove);
+            pawnsOnTile.removeAll(pawnsToCapture);
         }
 
         int tilesCount = pawnsOnTile.size();
-        Vec2i coords = getApp().getBoard().getTileCoords(boardSize, current.getPos());
+        Vec2i pos = getApp().getBoard().getTilePos(boardSize, movedPawn.getPos());
         int tileGrid = (int) ceil(sqrt(pawnsOnTile.size()));
         Vec2i gridSize = new Vec2i(tileSize.x / tileGrid, tileSize.y / tileGrid);
 
-        for(int r = 0; r < tileGrid; ++r) {
-            for(int c = 0; ((r * tileGrid) + c) < tilesCount; ++c) {
-                ImageView temp = pawnsOnTile.get(r * tileGrid + c);
-                temp.setFitWidth(gridSize.x);
-                temp.setFitHeight(gridSize.y);
-                temp.setLayoutX(coords.x + c * gridSize.x);
-                temp.setLayoutY(coords.y + r * gridSize.y);
+        for(int row = 0; row < tileGrid; ++row) {
+            for(int col = 0; ((row * tileGrid) + col) < tilesCount; ++col) {
+                ImageView pawnOnTile = pawnsOnTile.get(row * tileGrid + col);
+
+                pawnOnTile.setFitWidth(gridSize.x);
+                pawnOnTile.setFitHeight(gridSize.y);
+                pawnOnTile.setLayoutX(pos.x + col * gridSize.x);
+                pawnOnTile.setLayoutY(pos.y + row * gridSize.y);
+            }
+        }
+    }
+
+    public void onPawnClick(MouseEvent mouseEvent) {
+        if(state != GameState.WAITS_FOR_CHOICE) {
+            return;
+        }
+
+        int rollResult = dice.getRollResult();
+        ImageView pawnView = (ImageView) mouseEvent.getTarget();
+        Pawn pawnModel = (Pawn) pawnView.getUserData();
+
+        Tile tileAfterSteps = currentPlayer.movePawnBy(pawnModel, rollResult);
+        // has chosen not allowed pawn
+        if(tileAfterSteps == null) {
+            return;
+        }
+
+        movePawnToTile(pawnModel, tileAfterSteps);
+
+        if(currentPlayer.hasWon()) {
+            winners.add(currentPlayer);
+        }
+        else {
+            if(rollResult == REPEAT_ROLL_VALUE) {
+                setState(GameState.WAITS_FOR_ROLL);
+                return;
+            }
+            else {
+                playersQueue.add(currentPlayer);
             }
         }
 
-        if (diceResult != REPEAT_ROLL_VALUE) {
-            roundPlayer();
+        if(playersQueue.size() >= MIN_PLAYERS) {
+            currentPlayer = playersQueue.poll();
+            setState(GameState.WAITS_FOR_ROLL);
         }
-
-        selectPawn.set(false);
-        onPawnMove();
+        else {
+            showWinAlert();
+        }
     }
 
     public void endGame() {
-        LudoApp game = (LudoApp)(this.getApp());
+        LudoApp app = this.getApp();
 
-        Stage stage = game.getStage();
-        stage.setScene(game.getScene(MENU_FXML_FILE));
+        Stage stage = app.getStage();
+        stage.setScene(app.getScene(MENU_FXML_FILE));
         stage.show();
     }
 
     private void showWinAlert() {
-        if(winner == null)
-            return;
-      
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle(GAME_OVER);
             alert.setHeaderText(GAME_OVER);
 
-            alert.setContentText(winner.toString() + WON_COMMUNICATE);
+            int rank = FIRST_RANK;
+            StringBuilder message = new StringBuilder(WON_COMMUNICATE).append('\n');
 
+            for(Player winner : winners) {
+                message.append(rank).append(". ");
+                message.append(winner.getColor().toString());
+                message.append('\n');
+                ++rank;
+            }
+
+            if(playersQueue.peek() != null) {
+                message.append(rank).append(". ");
+                message.append(playersQueue.peek().getColor().toString());
+                message.append('\n');
+            }
+
+            alert.setContentText(message.toString());
             alert.showAndWait().ifPresent(rs -> {
                 if (rs == ButtonType.OK) {
-                    LudoApp game = (LudoApp)(this.getApp());
+                    LudoApp game = this.getApp();
 
                     Stage stage = game.getStage();
                     stage.setScene(game.getScene(MENU_FXML_FILE));
@@ -410,58 +458,8 @@ public class GameController extends RootController implements Initializable {
         });
     }
 
-    private void onPawnMove() {
-        if(hasAnyoneWon())
-            showWinAlert();
-    }
-
-    private boolean hasAnyoneWon() {
-        Function<ImageView[], Boolean> allPawnsOnHome = (pawns) -> {
-            for(int pawnID = 0; pawnID < PAWNS_PER_PLAYER; ++pawnID) {
-                Pawn pawn = (Pawn) pawns[pawnID].getUserData();
-
-                if(!(pawn.getTile() instanceof HomeTile))
-                    return false;
-            }
-            
-            return true;
-        };
-
-        for(int playerID = 0; playerID < playersCount; ++playerID) {
-            if(allPawnsOnHome.apply(pawns[playerID])) {
-                winner = Color.values()[playerID];
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         bindPawns();
-        currentPlayer = FIRST_PLAYER;
-        rollInSerie = FIRST_ROLL_IN_SERIES;
-        playersCount = MIN_PLAYERS;  //always changed in beforeRoute
-
-        selectPawn.addListener((ignored, from, to) -> {
-            Color playerColor = Color.values()[currentPlayer];
-            String currentName = playerColor.toString();
-
-            if(to) {
-                status.setText(currentName + PAWN_COMMUNICATE);
-            }
-            else {
-                status.setText(currentName + ROLL_COMMUNICATE);
-                dice.setWaitingForRoll(true);
-            }
-
-            Paint backgroundPaint = Paint.valueOf(currentName.toLowerCase());
-            status.setBackground(Background.fill(backgroundPaint));
-            status.setTextFill((playerColor.getPaint()));
-        });
-
-        winner = null;
-        dice.setWaitingForRoll(true);
     }
 }
