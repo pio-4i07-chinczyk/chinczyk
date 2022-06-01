@@ -28,11 +28,7 @@ public abstract class RootController {
         stage.show();
     }
 
-    public void runBeforeStart() {
+    public void runBeforeStart() {}
 
-    }
-
-    public void runBeforeRoute(RootController previous) {
-
-    }
+    public void runBeforeRoute(RootController previous) {}
 }

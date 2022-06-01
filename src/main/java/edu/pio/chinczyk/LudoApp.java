@@ -81,8 +81,9 @@ public class LudoApp extends Application {
     public void start(Stage stage) {
         this.stage = stage;
 
-        for(RootController controller : controllers.values())
+        for(RootController controller : controllers.values()) {
             controller.runBeforeStart();
+        }
 
         stage.setTitle(GAME_TITLE);
         stage.setScene(this.getScene(MENU_FXML_FILE));
