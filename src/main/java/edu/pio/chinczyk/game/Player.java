@@ -1,10 +1,9 @@
 package edu.pio.chinczyk.game;
 
+import java.util.Arrays;
+import static edu.pio.chinczyk.GameController.PAWNS_PER_PLAYER;
+
 public class Player {
-
-    public static final int LOBBY_TILES_N = 4;
-    public static final int HOME_TILES_N = 4;
-
     private final LobbyTile[] lobbyTiles;
     private StartingTile startingTile;
     private final HomeTile[] homeTiles;
@@ -12,11 +11,11 @@ public class Player {
     private final Color color;
 
     public Player(Color color) {
-        this.lobbyTiles = new LobbyTile[LOBBY_TILES_N];
+        this.lobbyTiles = new LobbyTile[PAWNS_PER_PLAYER];
         this.startingTile = null;
-        this.homeTiles = new HomeTile[HOME_TILES_N];
+        this.homeTiles = new HomeTile[PAWNS_PER_PLAYER];
         this.color = color;
-        this.pawns = new Pawn[4];
+        this.pawns = new Pawn[PAWNS_PER_PLAYER];
     }
 
     public void setStartingTile(StartingTile startingTile) {
@@ -45,5 +44,49 @@ public class Player {
 
     public Color getColor() {
         return color;
+    }
+
+    private boolean ownsPawn(Pawn unknownPawn) {
+        return Arrays.stream(pawns).anyMatch(
+                pawn -> (pawn == unknownPawn)
+        );
+    }
+
+    public Tile movePawnBy(Pawn pawn, int steps) {
+        if(!ownsPawn(pawn)) {
+            return null;
+        }
+
+        Tile destination = pawn.getTileAfterSteps(steps);
+
+        if(destination instanceof HomeTile) {
+            boolean homeTileOccupied = Arrays.stream(pawns).anyMatch(
+                    otherPawn -> otherPawn.getTile() == destination
+            );
+
+            if(homeTileOccupied) {
+                return null;
+            }
+        }
+
+        return destination;
+    }
+
+    public boolean canMoveBy(int steps) {
+        return Arrays.stream(pawns).anyMatch(
+                pawn -> (movePawnBy(pawn, steps) != null)
+        );
+    }
+
+    public boolean isOnlyInLobby() {
+        return Arrays.stream(pawns).allMatch(
+                pawn -> (pawn.getTile() instanceof LobbyTile)
+        );
+    }
+
+    public boolean hasWon() {
+        return Arrays.stream(pawns).allMatch(
+                pawn -> (pawn.getTile() instanceof HomeTile)
+        );
     }
 }

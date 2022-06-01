@@ -2,18 +2,20 @@ package edu.pio.chinczyk.game;
 
 import java.util.TreeMap;
 
+import static edu.pio.chinczyk.GameController.PAWNS_PER_PLAYER;
+
 public class Board {
-    private static final int PLAYERS_N = 4;
-    public static final int TILES_N = 11;
-    private static final int LONG_SIDE_N = 5;
-    private final Vec2i size = new Vec2i(TILES_N, TILES_N);
+    private static final int PLAYERS_NUMBER = 4;
+    public static final int TILES_NUMBER = 11;
+    private static final int LONG_SIDE_TILES_NUMBER = 5;
+    private static final int LOBBY_WIDTH = 2;
 
     private final Player[] players;
     private final TreeMap<Vec2i, Tile> tiles;
 
     public Board() {
         this.tiles = new TreeMap<>();
-        this.players = new Player[PLAYERS_N];
+        this.players = new Player[PLAYERS_NUMBER];
 
         addPlayer(Color.BLUE);
         addPlayer(Color.GREEN);
@@ -47,13 +49,13 @@ public class Board {
         int x = player.getColor().getLobbyPosition().x;
         int y = player.getColor().getLobbyPosition().y;
 
-        for(int i = 0; i < 2; ++i) {
-            for(int j = 0; j < 2; ++j) {
+        for(int i = 0; i < LOBBY_WIDTH; ++i) {
+            for(int j = 0; j < LOBBY_WIDTH; ++j) {
                 LobbyTile lobbyTile = new LobbyTile(x + j, y + i);
                 tiles.put(lobbyTile.getPos(), lobbyTile);
                 lobbyTile.setNext(startingTile);
 
-                int index = (i * 2) + j;
+                int index = (i * LOBBY_WIDTH) + j;
 
                 Pawn pawn = new Pawn(player.getColor());
                 pawn.setTile(lobbyTile);
@@ -71,17 +73,16 @@ public class Board {
         int directionX = color.getHomeDirection().getVec().x;
         int directionY = color.getHomeDirection().getVec().y;
 
-
         Tile tile = new HomeTile(x, y);     // last home tile
         tiles.put(color.getHomePosition(), tile);
 
-        for(int tileNumber = 0; tileNumber < PLAYERS_N; ++tileNumber) {
+        for(int tileNumber = 1; tileNumber < PAWNS_PER_PLAYER; ++tileNumber) {
             Tile temp = tile;
             tile = new HomeTile(x + tileNumber * directionX, y + tileNumber * directionY, color, temp);
             tiles.put(tile.getPos(), tile);
         }
 
-        Tile entryTile = tiles.get(new Vec2i( x+ PLAYERS_N * directionX, y + PLAYERS_N * directionY));
+        Tile entryTile = tiles.get(new Vec2i( x + PAWNS_PER_PLAYER * directionX, y + PAWNS_PER_PLAYER * directionY));
         entryTile.setAlt(tile);
     }
 
@@ -104,7 +105,7 @@ public class Board {
         currentTile = new Tile(currentPosition.x, currentPosition.y, nextTile);
         tiles.put(currentTile.getPos(), currentTile);
 
-        for(int tileInRow = 0; tileInRow < LONG_SIDE_N - 1; ++tileInRow) {
+        for(int tileInRow = 0; tileInRow < LONG_SIDE_TILES_NUMBER - 1; ++tileInRow) {
             nextTile = currentTile;
             currentPosition.x = currentPosition.x + secondDirection.getVec().x;
             currentPosition.y = currentPosition.y + secondDirection.getVec().y;
@@ -112,7 +113,7 @@ public class Board {
             tiles.put(currentTile.getPos(), currentTile);
         }
 
-        for(int tileInRow = 0; tileInRow < LONG_SIDE_N - 2; ++tileInRow) {
+        for(int tileInRow = 0; tileInRow < LONG_SIDE_TILES_NUMBER - 2; ++tileInRow) {
             nextTile = currentTile;
             currentPosition.x = currentPosition.x + firstDirection.getVec().x;
             currentPosition.y = currentPosition.y + firstDirection.getVec().y;
@@ -127,15 +128,11 @@ public class Board {
         destinationStartTile.setNext(nextTile);
     }
 
-    private Tile getTile(int x, int y) {
-        return tiles.get(new Vec2i(x, y));
-    }
-
     public Player getPlayer(int id) {
         return this.players[id];
     }
 
-    public Vec2i getTileCoords(Vec2i size, Vec2i pos) {
-        return new Vec2i((size.x / TILES_N) * pos.x ,(size.y / TILES_N) * pos.y);
+    public Vec2i getTilePos(Vec2i size, Vec2i pos) {
+        return new Vec2i((size.x / TILES_NUMBER) * pos.x ,(size.y / TILES_NUMBER) * pos.y);
     }
 }

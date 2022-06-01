@@ -10,11 +10,19 @@ import java.net.URL;
 import java.util.HashMap;
 
 public class LudoApp extends Application {
+    public static final String MENU_FXML_FILE = "menu.fxml";
+    public static final String RULES_FXML_FILE = "rules.fxml";
+    public static final String GAME_SELECTOR_FXML_FILE = "game-selector.fxml";
+    public static final String GAME_FXML_FILE = "game.fxml";
+    public static final String DICE_FXML_FILE = "dice.fxml";
+
+    public static final String GAME_TITLE = "CHINCZYK";
+
     private static final String[] scenePaths = {
-            "menu.fxml",
-            "rules.fxml",
-            "game-selector.fxml",
-            "game.fxml"
+            MENU_FXML_FILE,
+            RULES_FXML_FILE,
+            GAME_SELECTOR_FXML_FILE,
+            GAME_FXML_FILE
     };
 
     private final HashMap<String, Scene> scenes;
@@ -73,11 +81,12 @@ public class LudoApp extends Application {
     public void start(Stage stage) {
         this.stage = stage;
 
-        for(RootController controller : controllers.values())
+        for(RootController controller : controllers.values()) {
             controller.runBeforeStart();
+        }
 
-        stage.setTitle("CHINCZYK!");
-        stage.setScene(this.getScene("menu.fxml"));
+        stage.setTitle(GAME_TITLE);
+        stage.setScene(this.getScene(MENU_FXML_FILE));
         stage.show();
     }
 

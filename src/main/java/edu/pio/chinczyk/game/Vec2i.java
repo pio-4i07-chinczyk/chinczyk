@@ -14,8 +14,10 @@ public class Vec2i implements Comparable<Vec2i> {
     @Override
     public int compareTo(Vec2i vec2i) {
         int compareResult = Integer.compare(this.x, vec2i.x);
-        if(compareResult != 0)
+
+        if(compareResult != 0) {
             return compareResult;
+        }
 
         return Integer.compare(this.y, vec2i.y);
     }
