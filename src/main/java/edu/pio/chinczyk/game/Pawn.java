@@ -21,32 +21,38 @@ public class Pawn {
         return color;
     }
 
-    public Tile getTileAfterSteps(int rollResult) {
-        Tile targetTile = tile;
-
+    public Tile getTileAfterSteps(int steps) {
         if(tile instanceof LobbyTile) {
-            if(rollResult == ENTRY_ROLL_VALUE)
-                targetTile = targetTile.getNext();
-            else
+            if(steps == ENTRY_ROLL_VALUE) {
+                return tile.getNext();
+            }
+            else {
                 return null;
-        }
-        else {
-            for (int i = 0; i < rollResult; ++i) {
-                Tile next = targetTile.getNext();
-                Tile alt = targetTile.getAlt();
-
-                if((alt instanceof HomeTile) && ((HomeTile)alt).getColor() == this.color) {
-                    targetTile = alt;
-                }
-                else {
-                    if (next == null)
-                        return null;
-
-                    targetTile = next;
-                }
             }
         }
 
-        return targetTile;
+        Tile currentTile = tile;
+
+        for (int i = 0; i < steps; ++i) {
+            Tile next = currentTile.getNext();
+            Tile alt = currentTile.getAlt();
+
+            if((alt instanceof HomeTile) && ((HomeTile)alt).getColor() == this.color) {
+                currentTile = alt;
+            }
+            else {
+                if (next == null) {
+                    return null;
+                }
+
+                currentTile = next;
+            }
+        }
+
+        return currentTile;
+    }
+
+    public Vec2i getPos() {
+        return tile.getPos();
     }
 }
