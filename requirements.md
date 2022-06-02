@@ -1,6 +1,6 @@
 ## Zasady chińczyka
 * Gra od 2 do 4 osób.
-* Gracze rzucają kostką zgodnie z ustaloną wcześniej kolejnością (zgodnie z kierunkiem zegara, rozpoczynając od koloru zielonego).
+* Gracze rzucają kostką zgodnie z ustaloną wcześniej kolejnością (zgodnie z kierunkiem zegara, rozpoczynając od koloru niebieskiego).
 * Każdy gracz ma 4 pionki, które początkowo znajdują się w schowku.
 * Każdy gracz wyróżnia się innym kolorem (zielony,żółty,niebieski,czerwony).
 * Pionek pojawia się na planszy, na polu startowym, gdy zostanie wyrzuconych 6 oczek na kostce.
