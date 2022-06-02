@@ -134,6 +134,12 @@
             </image>
         </ImageView>
 
+        <Label fx:id="stats" layoutX="650.0" layoutY="365.0" style="-fx-font-size: 20px; -fx-font-weight: 700;">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+        </Label>
+
         <Label fx:id="status" layoutY="630.0" layoutX="250.0" style="-fx-font-size: 20px; -fx-font-weight: 700;">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>

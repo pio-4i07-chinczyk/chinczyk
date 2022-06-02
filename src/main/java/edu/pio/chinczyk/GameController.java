@@ -39,6 +39,9 @@ public class GameController extends RootController implements Initializable {
     private static final int FIRST_RANK = 1;
 
     @FXML
+    private Label stats;
+
+    @FXML
     private Label status;
 
     @FXML
@@ -103,6 +106,8 @@ public class GameController extends RootController implements Initializable {
     private final Queue<Player> playersQueue;
     private final List<Player> winners;
 
+    private final List<Integer> statsTable;
+
     private final ImageView[][] pawns;
 
     public GameController() {
@@ -112,6 +117,8 @@ public class GameController extends RootController implements Initializable {
         rollInSerie = 0;
         playersQueue = new LinkedList<>();
         winners = new ArrayList<>();
+
+        statsTable = new ArrayList<>();
 
         pawns = new ImageView[MAX_PLAYERS][PAWNS_PER_PLAYER];
     }
@@ -135,6 +142,29 @@ public class GameController extends RootController implements Initializable {
         winners.clear();
         currentPlayer = playersQueue.poll();
         setState(GameState.WAITS_FOR_ROLL);
+
+        initStats();
+    }
+
+    private void initStats() {
+
+        statsTable.clear();
+        for(int playerId = FIRST_PLAYER; playerId < playersCount; ++playerId) {
+            statsTable.add(0);
+        }
+
+        updateStats();
+    }
+
+    private void updateStats() {
+        StringBuilder message = new StringBuilder("Ilosc zbic:");
+
+        for(int playerID = FIRST_PLAYER; playerID < playersCount; ++playerID) {
+            message.append("\n").append(Color.values()[playerID].toString());
+            message.append(": ").append(statsTable.get(playerID));
+        }
+
+        stats.setText(message.toString());
     }
 
     private void resetPawns() {
@@ -313,6 +343,8 @@ public class GameController extends RootController implements Initializable {
     private void movePawnToTile(Pawn movedPawn, Tile destination) {
         movedPawn.setTile(destination);
 
+        int movedPlayerId = movedPawn.getColor().getIndex();
+
         List<ImageView> pawnsOnTile = new ArrayList<>();
         for(int playerId = FIRST_PLAYER; playerId < playersCount; ++playerId) {
             for(int pawnId = FIRST_PAWN; pawnId < PAWNS_PER_PLAYER; ++pawnId) {
@@ -334,6 +366,12 @@ public class GameController extends RootController implements Initializable {
                 Pawn pawnModel = (Pawn) pawn.getUserData();
                 return pawnModel.getColor() != movedPawn.getColor();
             }).toList();
+
+            Integer capturesCount = statsTable.get(movedPlayerId);
+            capturesCount += pawnsToCapture.size();
+            statsTable.set(movedPlayerId, capturesCount);
+
+            updateStats();
 
             Board board = this.getApp().getBoard();
             Player pawnOwner = null;
