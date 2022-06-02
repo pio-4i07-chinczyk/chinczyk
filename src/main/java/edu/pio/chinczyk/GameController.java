@@ -410,6 +410,7 @@ public class GameController extends RootController implements Initializable {
 
         if(playersQueue.size() >= MIN_PLAYERS) {
             currentPlayer = playersQueue.poll();
+            rollInSerie = ROLL_IN_SERIES_INIT;
             setState(GameState.WAITS_FOR_ROLL);
         }
         else {
