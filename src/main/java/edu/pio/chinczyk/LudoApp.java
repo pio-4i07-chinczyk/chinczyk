@@ -16,7 +16,7 @@ public class LudoApp extends Application {
     public static final String GAME_FXML_FILE = "game.fxml";
     public static final String DICE_FXML_FILE = "dice.fxml";
 
-    public static final String GAME_TITLE = "CHINCZYK";
+    private static final String GAME_TITLE = "CHINCZYK";
 
     private static final String[] scenePaths = {
             MENU_FXML_FILE,
