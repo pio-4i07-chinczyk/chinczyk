@@ -128,7 +128,7 @@ public class GameController extends RootController implements Initializable {
         }
 
         this.playersCount = ((GameSelectorController) previous).getPlayers();
-
+        rollInSerie = ROLL_IN_SERIES_INIT;
         resetPawns();
         hideUnusedPawns();
         initPlayersQueue();
